@@ -663,7 +663,7 @@
 
             let data = null;
             try {
-                const response = await fetchWithTimeout('http://127.0.0.1:5002/predict', {
+                const response = await fetchWithTimeout('/api/sentiment/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ text: input }),
