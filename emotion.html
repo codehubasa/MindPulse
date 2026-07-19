@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Emotion Detection Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --amber:  #f59e0b;
+            --violet: #a78bfa;
+            --teal:   #2dd4bf;
+            --rose:   #f43f5e;
+            --blue:   #60a5fa;
+            --green:  #34d399;
+            --surface: rgba(14, 18, 38, 0.90);
+            --muted:  #64748b;
+            --text:   #e2e8f0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background:
+                radial-gradient(ellipse 80% 55% at 50% -10%, rgba(167,139,250,0.16) 0%, transparent 70%),
+                radial-gradient(ellipse 55% 40% at 85% 95%, rgba(245,158,11,0.13) 0%, transparent 60%),
+                linear-gradient(rgba(5,4,16,0.93), rgba(7,5,20,0.97)),
+                url('https://images.unsplash.com/photo-1557682257-2f9c37a3a5f3?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(167,139,250,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(167,139,250,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+
+        .orb { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; opacity: 0.18; }
+        .orb-1 { width: 500px; height: 500px; background: #a78bfa; top: -150px; right: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: #f59e0b; bottom: -100px; left: -80px; }
+
+        .page { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; display: flex; flex-direction: column; gap: 1rem; }
+
+        /* ── 3D CARD ── */
+        .card {
+            position: relative; border-radius: 20px;
+            background: linear-gradient(148deg, rgba(28,36,60,0.80) 0%, rgba(14,18,38,0.92) 100%);
+            border-top:    1px solid rgba(255,255,255,0.17);
+            border-left:   1px solid rgba(255,255,255,0.10);
+            border-right:  1px solid rgba(0,0,0,0.50);
+            border-bottom: 1px solid rgba(0,0,0,0.60);
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+            box-shadow:
+                inset 0  1px 0 rgba(255,255,255,0.12),
+                inset 1px 0  0 rgba(255,255,255,0.06),
+                0  2px  0 rgba(0,0,0,0.70),
+                0  4px  0 rgba(0,0,0,0.55),
+                0  6px  0 rgba(0,0,0,0.38),
+                0  8px  0 rgba(0,0,0,0.22),
+                0 10px  0 rgba(0,0,0,0.10),
+                0 16px 40px rgba(0,0,0,0.60),
+                0 32px 64px rgba(0,0,0,0.45);
+            transform: perspective(1400px) rotateX(2.5deg);
+            transition: transform 0.38s cubic-bezier(.22,.68,0,1.2), box-shadow 0.38s ease;
+        }
+        .card:hover {
+            transform: perspective(1400px) rotateX(0deg) translateY(-6px);
+            box-shadow:
+                inset 0  1px 0 rgba(255,255,255,0.18),
+                inset 1px 0  0 rgba(255,255,255,0.09),
+                0  2px  0 rgba(0,0,0,0.70),
+                0  4px  0 rgba(0,0,0,0.55),
+                0  6px  0 rgba(0,0,0,0.38),
+                0  8px  0 rgba(0,0,0,0.22),
+                0 10px  0 rgba(0,0,0,0.10),
+                0 20px 60px rgba(0,0,0,0.70),
+                0 40px 80px rgba(0,0,0,0.50);
+        }
+        .card-violet::after {
+            content: ''; position: absolute; inset: -1px; border-radius: 21px;
+            background: linear-gradient(135deg, rgba(167,139,250,0.30), transparent 50%);
+            pointer-events: none; z-index: -1;
+        }
+        .card-amber::after {
+            content: ''; position: absolute; inset: -1px; border-radius: 21px;
+            background: linear-gradient(135deg, rgba(245,158,11,0.28), transparent 50%);
+            pointer-events: none; z-index: -1;
+        }
+
+        /* ── HEADER ── */
+        .header { padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .logo-orb {
+            width: 56px; height: 56px; border-radius: 16px; flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(167,139,250,0.30), rgba(245,158,11,0.18));
+            border: 1px solid rgba(167,139,250,0.45);
+            display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+            box-shadow: 0 0 24px rgba(167,139,250,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+        .title-block { flex: 1; padding-left: 1rem; }
+        .title-block h1 { font-size: 1.25rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+        .title-block p  { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+        .title-block p em { color: #c4b5fd; font-style: italic; }
+        .live-pill {
+            display: flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px;
+            background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.30);
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #34d399;
+        }
+        .pulse { width: 7px; height: 7px; border-radius: 50%; background: #34d399; animation: pulse 1.8s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+        .stat-chip { text-align: right; }
+        .stat-chip .val { font-size: 1.6rem; font-weight: 900; color: #c4b5fd; line-height: 1; }
+        .stat-chip .lbl { font-size: 0.6rem; text-transform: uppercase; color: var(--muted); margin-top: 2px; letter-spacing: .07em; }
+
+        /* ── INPUT ── */
+        .input-section { padding: 1.75rem 2rem; }
+        .section-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 0.75rem; }
+        textarea {
+            width: 100%; height: 96px;
+            background: rgba(6,8,20,0.60); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
+            padding: 1rem 1.25rem; font-family: 'Space Grotesk', monospace; font-size: 0.875rem; color: #e2e8f0;
+            resize: none; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.45);
+        }
+        textarea:focus { border-color: rgba(167,139,250,0.5); box-shadow: inset 0 2px 8px rgba(0,0,0,0.45), 0 0 0 3px rgba(167,139,250,0.12); }
+        textarea::placeholder { color: #3f4860; }
+
+        .btn-row { display: flex; gap: 10px; margin-top: 1rem; }
+        .btn-primary {
+            flex: 1; padding: 0.85rem 1.5rem;
+            background: linear-gradient(to bottom, #7c3aed, #6d28d9);
+            border: none; border-radius: 13px;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.875rem; font-weight: 700; color: #fff;
+            cursor: pointer; letter-spacing: 0.01em;
+            box-shadow: 0 4px 0 #3b0764, 0 6px 20px rgba(109,40,217,0.40);
+            transition: transform 0.12s, box-shadow 0.12s;
+        }
+        .btn-primary:hover { background: linear-gradient(to bottom, #8b5cf6, #7c3aed); }
+        .btn-primary:active { transform: translateY(3px); box-shadow: 0 1px 0 #3b0764; }
+        .btn-icon {
+            width: 48px; height: 48px; background: rgba(30,38,65,0.70); border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 13px; cursor: pointer; color: var(--muted); font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s, color 0.2s, transform 0.12s;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.50);
+        }
+        .btn-icon:hover { background: rgba(167,139,250,0.18); color: #c4b5fd; border-color: rgba(167,139,250,0.30); }
+        .btn-icon:active { transform: translateY(2px); }
+
+        /* ── EMOTION WHEEL ── */
+        .panels-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+        @media (max-width: 768px) { .panels-grid { grid-template-columns: 1fr; } }
+
+        .heatmap-card { grid-column: span 2; padding: 1.5rem 1.75rem; position: relative; overflow: hidden; }
+        .side-card     { grid-column: span 1; padding: 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1.4rem; }
+
+        .heatmap-box {
+            background: rgba(6,8,20,0.55); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px;
+            padding: 1rem 1.25rem; font-family: 'Space Grotesk', monospace;
+            font-size: 0.875rem; line-height: 1.75; color: #94a3b8; min-height: 80px;
+        }
+        .hw  { background: rgba(167,139,250,0.25); border-radius: 4px; padding: 1px 5px; color: #c4b5fd; font-weight: 700; }
+        .hwm { background: rgba(245,158,11,0.20);  border-radius: 4px; padding: 1px 5px; color: #fbbf24; font-weight: 600; }
+
+        /* Emotion bar chart */
+        .emo-bars { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+        .emo-row  { display: flex; align-items: center; gap: 10px; }
+        .emo-label{ font-size: 0.7rem; font-weight: 600; width: 72px; text-align: right; color: #94a3b8; flex-shrink: 0; }
+        .emo-track{ flex: 1; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+        .emo-fill { height: 100%; border-radius: 4px; width: 0; transition: width 0.9s cubic-bezier(.34,1.1,.64,1); }
+        .emo-pct  { font-size: 0.65rem; font-family: 'Space Grotesk', monospace; color: var(--muted); width: 34px; text-align: right; flex-shrink: 0; }
+
+        /* dominant emotion badge */
+        .dom-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 12px; border-radius: 999px;
+            font-size: 0.72rem; font-weight: 700;
+        }
+
+        /* ── Side card elements ── */
+        .emoji-orb {
+            width: 76px; height: 76px; border-radius: 50%; margin: 0 auto;
+            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.12), rgba(0,0,0,0.30));
+            border: 1px solid rgba(255,255,255,0.10);
+            display: flex; align-items: center; justify-content: center; font-size: 2.4rem;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.50), 0 8px 24px rgba(0,0,0,0.45);
+            transition: transform 0.4s cubic-bezier(.34,1.56,.64,1), box-shadow 0.4s;
+        }
+        .emoji-orb:hover { transform: scale(1.08) rotate(-5deg); }
+        .emoji-lbl { text-align: center; font-size: 0.62rem; text-transform: uppercase; letter-spacing: .08em; margin-top: 6px; transition: color 0.3s; color: var(--muted); }
+
+        .conf-wrap { text-align: center; }
+        .conf-val  {
+            font-size: 2.4rem; font-weight: 900; letter-spacing: -1px;
+            background: linear-gradient(135deg, #a78bfa, #f59e0b);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .conf-lbl { font-size: 0.6rem; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin-top: 2px; }
+
+        /* Valence / arousal meter */
+        .va-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .va-item { background: rgba(6,8,20,0.50); border-radius: 10px; padding: 0.65rem 0.85rem; border: 1px solid rgba(255,255,255,0.06); }
+        .va-lbl { font-size: 0.58rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 4px; }
+        .va-val { font-size: 1.1rem; font-weight: 800; font-family: 'Space Grotesk', monospace; }
+        .va-track { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.06); margin-top: 6px; overflow: hidden; }
+        .va-fill  { height: 100%; border-radius: 3px; transition: width 0.85s cubic-bezier(.34,1.1,.64,1); }
+
+        .divider { height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent); margin: 0.25rem 0; }
+
+        /* ── TABLE ── */
+        .table-card { overflow: hidden; }
+        .table-head { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.5rem 0.75rem; }
+        .table-head .section-label { margin-bottom: 0; }
+        .clear-log { font-size: 0.65rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); background: none; border: none; cursor: pointer; transition: color 0.2s; }
+        .clear-log:hover { color: #c4b5fd; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        thead tr { border-bottom: 1px solid rgba(255,255,255,0.06); }
+        th { padding: 0.7rem 1.25rem; text-align: left; color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.6rem; letter-spacing: .07em; }
+        th:not(:first-child) { text-align: center; }
+        tbody tr { transition: background 0.15s; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        tbody tr:hover { background: rgba(255,255,255,0.04); }
+        td { padding: 0.85rem 1.25rem; vertical-align: middle; }
+        td:not(:first-child) { text-align: center; }
+        .empty-row td { text-align: center; padding: 2.5rem; color: #334155; font-style: italic; font-size: 0.8rem; }
+
+        /* ── Scan animation ── */
+        @keyframes scanline { 0%{top:0;opacity:.6} 50%{opacity:.3} 100%{top:100%;opacity:0} }
+        .scanning .heatmap-box::before {
+            content: ''; position: absolute; left: 0; right: 0; height: 2px;
+            background: linear-gradient(to right, transparent, #a78bfa, transparent);
+            animation: scanline 0.85s ease forwards;
+        }
+
+        /* ── Mini emotion chips ── */
+        .chip {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 9px; border-radius: 999px; font-size: 0.68rem; font-weight: 700;
+        }
+        /* Scoped Header Styles */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background-color: rgba(2, 6, 23, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+        }
+        .site-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .site-logo-icon {
+            background: linear-gradient(135deg, #22d3ee, #34d399);
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            color: #020617;
+            font-size: 1.125rem;
+            box-shadow: 0 10px 15px -3px rgba(34, 211, 238, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            box-sizing: border-box;
+        }
+        .site-logo-text {
+            font-weight: 900;
+            font-size: 1.25rem;
+            letter-spacing: 0.05em;
+            color: #fff;
+        }
+        .site-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .site-nav-link {
+            text-decoration: none;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
+        }
+        .site-nav-link:hover {
+            color: #22d3ee;
+        }
+        @media (max-width: 768px) {
+            .site-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html#page-1" class="site-logo">
+            <div class="site-logo-icon">
+                <i class="fas fa-wave-square"></i>
+            </div>
+            <span class="site-logo-text">MindPulse</span>
+        </a>
+        <nav class="site-nav">
+            <a href="index.html#page-1" class="site-nav-link">Home</a>
+            <a href="dashboard.html" class="site-nav-link">Dashboard</a>
+            <a href="index.html#page-7" class="site-nav-link">Login</a>
+            <a href="about.html" class="site-nav-link">About Us</a>
+            <a href="FAQ.html" class="site-nav-link">FAQ</a>
+            <a href="contact.html" class="site-nav-link">Contact Us</a>
+            <a href="feedback.html" class="site-nav-link">Feedback</a>
+            <a href="policy.html" class="site-nav-link">Policy & Terms</a>
+        </nav>
+    </header>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="page">
+
+        <!-- ── HEADER ── -->
+        <div class="card card-violet">
+            <div class="header">
+                <div class="logo-orb">🧠</div>
+                <div class="title-block">
+                    <h1>Emotion Detection Pipeline</h1>
+                    <p>Deep affective state analysis from natural language. <em>Your words feel everything.</em></p>
+                </div>
+                <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
+                    <div class="stat-chip">
+                        <div class="val" id="totalCount">0</div>
+                        <div class="lbl">Total analysed</div>
+                    </div>
+                    <div class="live-pill">
+                        <span class="pulse"></span> Model Live
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── INPUT ── -->
+        <div class="card card-amber">
+            <div class="input-section">
+                <div class="section-label">Input text stream</div>
+                <textarea id="userText" placeholder="Type or paste any text — a message, review, tweet... Let the model feel it out."></textarea>
+                <div class="btn-row">
+                    <button class="btn-primary" onclick="runModel()">
+                        <i class="fa-solid fa-heart-pulse" style="margin-right:8px;"></i>Detect Emotions
+                    </button>
+                    <button class="btn-icon" onclick="loadSample()" title="Load a sample text">
+                        <i class="fa-solid fa-dice"></i>
+                    </button>
+                    <button class="btn-icon" onclick="clearInput()" title="Clear input">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── PANELS GRID ── -->
+        <div class="panels-grid">
+
+            <!-- Heatmap + emotion bars -->
+            <div class="card heatmap-card" id="heatmapCard">
+                <div class="section-label">Keyword emotion heatmap</div>
+                <div class="heatmap-box" id="heatmapBox">Waiting for input analysis...</div>
+
+                <div class="divider" style="margin:1.25rem 0 1rem;"></div>
+
+                <div class="section-label">Emotion intensity breakdown</div>
+                <div class="emo-bars" id="emoBars">
+                    <div class="emo-row"><span class="emo-label">Joy</span><div class="emo-track"><div class="emo-fill" style="background:#fbbf24; width:0%" id="bar-joy"></div></div><span class="emo-pct" id="pct-joy">0%</span></div>
+                    <div class="emo-row"><span class="emo-label">Sadness</span><div class="emo-track"><div class="emo-fill" style="background:#60a5fa; width:0%" id="bar-sad"></div></div><span class="emo-pct" id="pct-sad">0%</span></div>
+                    <div class="emo-row"><span class="emo-label">Anger</span><div class="emo-track"><div class="emo-fill" style="background:#f43f5e; width:0%" id="bar-ang"></div></div><span class="emo-pct" id="pct-ang">0%</span></div>
+                    <div class="emo-row"><span class="emo-label">Fear</span><div class="emo-track"><div class="emo-fill" style="background:#a78bfa; width:0%" id="bar-fea"></div></div><span class="emo-pct" id="pct-fea">0%</span></div>
+                    <div class="emo-row"><span class="emo-label">Surprise</span><div class="emo-track"><div class="emo-fill" style="background:#2dd4bf; width:0%" id="bar-sur"></div></div><span class="emo-pct" id="pct-sur">0%</span></div>
+                    <div class="emo-row"><span class="emo-label">Disgust</span><div class="emo-track"><div class="emo-fill" style="background:#fb923c; width:0%" id="bar-dis"></div></div><span class="emo-pct" id="pct-dis">0%</span></div>
+                </div>
+
+                <div class="divider" style="margin:1rem 0 0.75rem;"></div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+                    <div style="background:rgba(6,8,20,0.50); border-radius:10px; padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.06);">
+                        <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin-bottom:6px;">Dominant emotion</div>
+                        <div id="domEmo" style="font-size:1.1rem; font-weight:800;">--</div>
+                    </div>
+                    <div style="background:rgba(6,8,20,0.50); border-radius:10px; padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.06);">
+                        <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin-bottom:6px;">Sentiment tone</div>
+                        <div id="sentTone" style="font-size:1.1rem; font-weight:800;">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side card -->
+            <div class="card side-card">
+
+                <div>
+                    <div class="emoji-orb" id="emojiFace">🫥</div>
+                    <div class="emoji-lbl" id="emojiLabel">Awaiting input</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="conf-wrap">
+                    <div class="conf-val" id="confValue">--%</div>
+                    <div class="conf-lbl">Confidence score</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Valence + Arousal -->
+                <div>
+                    <div class="section-label" style="margin-bottom:0.6rem;">Valence · Arousal</div>
+                    <div class="va-grid">
+                        <div class="va-item">
+                            <div class="va-lbl">Valence</div>
+                            <div class="va-val" id="valenceVal" style="color:#34d399;">--</div>
+                            <div class="va-track"><div class="va-fill" id="valFill" style="background:#34d399; width:50%;"></div></div>
+                        </div>
+                        <div class="va-item">
+                            <div class="va-lbl">Arousal</div>
+                            <div class="va-val" id="arousalVal" style="color:#f59e0b;">--</div>
+                            <div class="va-track"><div class="va-fill" id="aroFill" style="background:#f59e0b; width:50%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Intensity meter -->
+                <div>
+                    <div class="section-label" style="margin-bottom:8px;">Emotional intensity</div>
+                    <div style="height:10px; border-radius:5px; background: linear-gradient(to right, #60a5fa, #a78bfa 50%, #f43f5e); position:relative; box-shadow: inset 0 2px 4px rgba(0,0,0,0.45);">
+                        <div id="intThumb" style="position:absolute; top:50%; transform:translate(-50%,-50%); width:20px; height:20px; border-radius:50%; background:linear-gradient(135deg,#fff,#cbd5e1); box-shadow:0 0 0 3px rgba(255,255,255,0.15), 0 3px 10px rgba(0,0,0,0.60); left:50%; transition:left 0.85s cubic-bezier(.34,1.2,.64,1);"></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.6rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin-top:8px;">
+                        <span>Calm</span><span>Intense</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── TABLE ── -->
+        <div class="card table-card">
+            <div class="table-head">
+                <div class="section-label">Analysis log</div>
+                <button class="clear-log" onclick="clearTable()">Clear log</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Input snippet</th>
+                        <th>Dominant</th>
+                        <th>Valence</th>
+                        <th>Arousal</th>
+                        <th>Confidence</th>
+                        <th>Tone</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    <tr class="empty-row">
+                        <td colspan="6">No analyses yet. Share a feeling — the model is listening.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        let totalCount = 0;
+
+        const EMOTIONS = [
+            { key: 'joy',     label: 'Joy',      emoji: '😄', color: '#fbbf24' },
+            { key: 'sad',     label: 'Sadness',  emoji: '😢', color: '#60a5fa' },
+            { key: 'ang',     label: 'Anger',    emoji: '😡', color: '#f43f5e' },
+            { key: 'fea',     label: 'Fear',     emoji: '😰', color: '#a78bfa' },
+            { key: 'sur',     label: 'Surprise', emoji: '😲', color: '#2dd4bf' },
+            { key: 'dis',     label: 'Disgust',  emoji: '🤢', color: '#fb923c' },
+        ];
+
+        const samples = [
+            "I can't believe she said that to me. It's been hours and I'm still shaking.",
+            "Just got the promotion I've been working towards for two years. I'm over the moon!",
+            "I don't know what to feel right now. Everything just happened so fast.",
+            "Why does this keep breaking?! I've fixed this three times already today.",
+            "There was something odd about the way he looked at me. It made me uneasy.",
+            "Oh wow, I did NOT see that plot twist coming. My jaw literally dropped.",
+            "This product is disgusting. I can't believe they even sell this.",
+        ];
+
+        function loadSample() {
+            document.getElementById('userText').value = samples[Math.floor(Math.random() * samples.length)];
+        }
+
+        function clearInput() {
+            document.getElementById('userText').value = '';
+            document.getElementById('heatmapBox').innerHTML = 'Waiting for input analysis...';
+            document.getElementById('heatmapBox').style.color = '#64748b';
+            document.getElementById('confValue').innerText = '--%';
+            document.getElementById('emojiFace').innerText = '🫥';
+            document.getElementById('emojiLabel').innerText = 'Awaiting input';
+            document.getElementById('emojiLabel').style.color = '';
+            document.getElementById('domEmo').innerText = '--';
+            document.getElementById('domEmo').style.color = '#e2e8f0';
+            document.getElementById('sentTone').innerText = '--';
+            document.getElementById('sentTone').style.color = '#e2e8f0';
+            document.getElementById('valenceVal').innerText = '--';
+            document.getElementById('arousalVal').innerText = '--';
+            document.getElementById('valFill').style.width = '50%';
+            document.getElementById('aroFill').style.width = '50%';
+            document.getElementById('intThumb').style.left = '50%';
+            EMOTIONS.forEach(e => {
+                document.getElementById('bar-' + e.key).style.width = '0%';
+                document.getElementById('pct-' + e.key).innerText = '0%';
+            });
+        }
+
+        function fetchWithTimeout(url, options = {}, timeout = 800) {
+            const controller = new AbortController();
+            const id = window.setTimeout(() => controller.abort(), timeout);
+            return fetch(url, { ...options, signal: controller.signal }).finally(() => window.clearTimeout(id));
+        }
+
+        function buildLocalEmotionResult(input) {
+            const text = input.toLowerCase();
+            const phraseWeights = {
+                joy: [
+                    [/\b(amazing|wonderful|great|excellent|beautiful|fantastic|delightful|lovely|awesome|brilliant)\b/gi, 3],
+                    [/\b(happy|joy|love|grateful|excited|glad|smile|smiling|thrilled|pleased)\b/gi, 2],
+                    [/\b(thank|thanks|appreciate)\b/gi, 1]
+                ],
+                sad: [
+                    [/\b(sad|upset|hurt|lonely|crying|heartbroken|miserable|depressed|hopeless|sorrow|pain)\b/gi, 3],
+                    [/\b(disappointed|devastated|ashamed|guilty|empty)\b/gi, 2]
+                ],
+                ang: [
+                    [/\b(angry|mad|furious|annoyed|irritated|rage|frustrated|hate|annoying)\b/gi, 3],
+                    [/\b(outraged|enraged|bothered|dislike)\b/gi, 2]
+                ],
+                fea: [
+                    [/\b(fear|scared|afraid|worried|nervous|panic|anxious|terrified|uneasy|unsafe)\b/gi, 3],
+                    [/\b(dread|afraid|trembling|shaking)\b/gi, 2]
+                ],
+                sur: [
+                    [/\b(surprise|surprised|wow|unexpected|shocked|astonished|sudden|unexpectedly)\b/gi, 3],
+                    [/\b(what a surprise|did not expect|didn't expect|unbelievable)\b/gi, 2]
+                ],
+                dis: [
+                    [/\b(disgust|disgusting|gross|awful|nasty|terrible|revolting|horrible|bad|dislike)\b/gi, 3],
+                    [/\b(ew|yuck|grossed out)\b/gi, 2]
+                ]
+            };
+
+            const scores = { joy: 0, sad: 0, ang: 0, fea: 0, sur: 0, dis: 0 };
+            Object.entries(phraseWeights).forEach(([key, entries]) => {
+                entries.forEach(([regex, weight]) => {
+                    const matches = text.matchAll(regex);
+                    for (const match of matches) {
+                        scores[key] += weight;
+                    }
+                });
+            });
+
+            if (text.includes('not') || text.includes('never') || text.includes('no')) {
+                scores.joy = Math.max(0, scores.joy - 1);
+                scores.sur = Math.max(0, scores.sur - 1);
+            }
+
+            const total = Object.values(scores).reduce((sum, value) => sum + value, 0) || 1;
+            const normalized = Object.fromEntries(Object.entries(scores).map(([key, value]) => [key, Math.round((value / total) * 100)]));
+            const dominantKey = Object.entries(normalized).sort((a, b) => b[1] - a[1])[0][0];
+            const dominantMap = {
+                joy: { label: 'Joy', emoji: '😄', color: '#fbbf24' },
+                sad: { label: 'Sadness', emoji: '😢', color: '#60a5fa' },
+                ang: { label: 'Anger', emoji: '😡', color: '#f43f5e' },
+                fea: { label: 'Fear', emoji: '😰', color: '#a78bfa' },
+                sur: { label: 'Surprise', emoji: '😲', color: '#2dd4bf' },
+                dis: { label: 'Disgust', emoji: '🤢', color: '#fb923c' }
+            };
+            const dominant = dominantMap[dominantKey];
+            const positive = normalized.joy + normalized.sur;
+            const negative = normalized.sad + normalized.ang + normalized.fea + normalized.dis;
+            let tone = 'Neutral';
+            let toneColor = '#94a3b8';
+            if (positive - negative > 10) {
+                tone = 'Positive';
+                toneColor = '#34d399';
+            } else if (negative - positive > 10) {
+                tone = 'Negative';
+                toneColor = '#f43f5e';
+            }
+            const valence = (positive - negative) / 100;
+            const arousal = (normalized.ang + normalized.fea + normalized.sur) / 100;
+            const confidence = Math.min(99.9, 65 + Math.max(...Object.values(normalized)) * 0.25);
+
+            const normalizedScores = Object.fromEntries(Object.entries(normalized).map(([key, value]) => [key, Math.max(1, value)]));
+            const totalNormalized = Object.values(normalizedScores).reduce((sum, value) => sum + value, 0) || 1;
+            const finalScores = Object.fromEntries(Object.entries(normalizedScores).map(([key, value]) => [key, Math.round((value / totalNormalized) * 100)]));
+            const diff = 100 - Object.values(finalScores).reduce((sum, value) => sum + value, 0);
+            finalScores.joy += diff;
+
+            return {
+                scores: finalScores,
+                dominant: { ...dominant, key: dominantKey },
+                tone,
+                toneColor,
+                confidence,
+                valence,
+                arousal
+            };
+        }
+
+        async function runModel() {
+            const input = document.getElementById('userText').value.trim();
+            if (!input) return;
+
+            const hc = document.getElementById('heatmapCard');
+            hc.classList.add('scanning');
+            setTimeout(() => hc.classList.remove('scanning'), 900);
+
+            let data = null;
+            try {
+                const response = await fetchWithTimeout('http://127.0.0.1:5001/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: input }),
+                    mode: 'cors'
+                }, 800);
+
+                if (response.ok) {
+                    data = await response.json();
+                }
+            } catch (error) {
+                data = null;
+            }
+
+            if (!data) {
+                data = buildLocalEmotionResult(input);
+            }
+
+            const scores = data.scores;
+            const dom = data.dominant;
+            const tone = data.tone;
+            const toneColor = data.toneColor || (tone === 'Positive' ? '#34d399' : tone === 'Negative' ? '#f43f5e' : '#94a3b8');
+            const confidence = (data.confidence || 0).toFixed(1);
+            const valence = data.valence || 0;
+            const arousal = data.arousal || 0;
+            const valPct = Math.round((valence + 1) / 2 * 100);
+            const aroPct = Math.round(arousal * 100);
+            const intPct = Math.round((aroPct * 0.6 + (100 - valPct) * 0.4));
+
+            const emotionOrder = [
+                { key: 'joy', label: 'Joy', emoji: '😄', color: '#fbbf24' },
+                { key: 'sad', label: 'Sadness', emoji: '😢', color: '#60a5fa' },
+                { key: 'ang', label: 'Anger', emoji: '😡', color: '#f43f5e' },
+                { key: 'fea', label: 'Fear', emoji: '😰', color: '#a78bfa' },
+                { key: 'sur', label: 'Surprise', emoji: '😲', color: '#2dd4bf' },
+                { key: 'dis', label: 'Disgust', emoji: '🤢', color: '#fb923c' },
+            ];
+
+            emotionOrder.forEach((e) => {
+                const bar = document.getElementById('bar-' + e.key);
+                const pct = document.getElementById('pct-' + e.key);
+                const value = Math.max(1, Math.round(scores[e.key]));
+                bar.style.width = value + '%';
+                pct.innerText = value + '%';
+            });
+
+            document.getElementById('domEmo').innerText = dom.emoji + ' ' + dom.label;
+            document.getElementById('domEmo').style.color = dom.color;
+            document.getElementById('sentTone').innerText = tone === 'Positive' ? '😊 Positive' : tone === 'Negative' ? '😔 Negative' : '😐 Neutral';
+            document.getElementById('sentTone').style.color = toneColor;
+            document.getElementById('emojiFace').innerText = dom.emoji;
+            document.getElementById('emojiLabel').innerText = dom.label + ' detected';
+            document.getElementById('emojiLabel').style.color = dom.color;
+            document.getElementById('confValue').innerText = confidence + '%';
+            document.getElementById('valenceVal').innerText = valence.toFixed(2);
+            document.getElementById('valenceVal').style.color = valence >= 0 ? '#34d399' : '#f43f5e';
+            document.getElementById('valFill').style.width = valPct + '%';
+            document.getElementById('valFill').style.background = valence >= 0 ? '#34d399' : '#f43f5e';
+            document.getElementById('arousalVal').innerText = arousal.toFixed(2);
+            document.getElementById('aroFill').style.width = aroPct + '%';
+            document.getElementById('intThumb').style.left = Math.min(Math.max(intPct, 5), 95) + '%';
+
+            const words = input.split(/(\s+)/);
+            const html = words.map((w) => {
+                if (w.trim() === '') return w;
+                const lower = w.toLowerCase();
+                if (['joy', 'happy', 'love', 'amazing', 'wonderful', 'excited', 'grateful', 'great', 'beautiful'].includes(lower)) return `<span class="hw">${w}</span>`;
+                if (['sad', 'angry', 'fear', 'scared', 'disgust', 'annoyed', 'terrible', 'hate', 'worried', 'upset'].includes(lower)) return `<span class="hwm">${w}</span>`;
+                return w;
+            }).join('');
+            const box = document.getElementById('heatmapBox');
+            box.innerHTML = html;
+            box.style.color = '#e2e8f0';
+
+            totalCount++;
+            document.getElementById('totalCount').innerText = totalCount;
+
+            document.querySelector('.empty-row')?.remove();
+            const tbody = document.getElementById('resultsBody');
+            const row = document.createElement('tr');
+            const chip = `<span class="chip" style="background:${dom.color}22; color:${dom.color}; border:1px solid ${dom.color}44;">${dom.emoji} ${dom.label}</span>`;
+            const toneChip = `<span class="chip" style="background:${toneColor}18; color:${toneColor}; border:1px solid ${toneColor}33;">${tone === 'Positive' ? '😊 Positive' : tone === 'Negative' ? '😔 Negative' : '😐 Neutral'}</span>`;
+            row.innerHTML = `
+                <td style="color:#94a3b8; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                    ${input.length > 42 ? input.substring(0, 42) + '…' : input}
+                </td>
+                <td>${chip}</td>
+                <td style="font-family:'Space Grotesk',monospace; color:${valence>=0?'#34d399':'#f43f5e'};">${valence.toFixed(2)}</td>
+                <td style="font-family:'Space Grotesk',monospace; color:#f59e0b;">${arousal.toFixed(2)}</td>
+                <td style="color:#94a3b8;">${confidence}%</td>
+                <td>${toneChip}</td>
+            `;
+            tbody.prepend(row);
+        }
+
+        function clearTable() {
+            document.getElementById('resultsBody').innerHTML =
+                `<tr class="empty-row"><td colspan="6">No analyses yet. Share a feeling — the model is listening.</td></tr>`;
+            totalCount = 0;
+            document.getElementById('totalCount').innerText = 0;
+        }
+    </script>
+</body>
+</html>

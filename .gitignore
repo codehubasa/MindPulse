@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+*.zip
+
+emotional_detection_model/bert_classifier_tensorflow_saved_model/variables/

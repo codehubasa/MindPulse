@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindPulse - Premium 3D Sentiment Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Immersive Blue-Green Premium 3D Render Topology Background */
+        body {
+            background-color: #02080d;
+            background-image: 
+                linear-gradient(to bottom, rgba(2, 8, 13, 0.88) 0%, rgba(5, 16, 26, 0.94) 100%),
+                url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1920&q=90');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* High Fidelity 3D Glassmorphism Panel Layer Structuring */
+        .glass-panel-3d {
+            background: rgba(8, 20, 32, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.08);
+        }
+
+        /* Interactive High-Depth Grid Module Blocks */
+        .card-3d-interactive {
+            transform: perspective(1200px) rotateX(10deg) rotateY(-6deg) translateZ(0px);
+            box-shadow: -10px 16px 30px rgba(0, 0, 0, 0.55),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .card-3d-interactive:hover {
+            transform: perspective(1200px) rotateX(3deg) rotateY(-1deg) translateZ(35px) translateY(-10px);
+            box-shadow: -20px 30px 50px rgba(6, 182, 212, 0.35),
+                        0 0 30px rgba(16, 185, 129, 0.25);
+            border-color: rgba(52, 211, 153, 0.5);
+        }
+
+        /* Dedicated Authentication Wrapper Perspective */
+        .auth-container-3d {
+            transform: perspective(1000px) rotateX(6deg) rotateY(-4deg);
+            box-shadow: -15px 25px 45px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+    <!-- Sentiment UI fonts and styles (merged from sentiment.html) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        #page-2 .page-sentiment *,
+        #page-2 .page-sentiment *::before,
+        #page-2 .page-sentiment *::after { box-sizing: border-box; }
+
+        #page-2 .page-sentiment {
+            --emerald: #10b981;
+            --blue: #60a5fa;
+            --rose: #f43f5e;
+            --amber: #f59e0b;
+            --teal: #2dd4bf;
+            --purple: #a78bfa;
+            --muted: #64748b;
+            --text: #e2e8f0;
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            color: var(--text);
+            background:
+                radial-gradient(ellipse 80% 55% at 50% -10%, rgba(16,185,129,0.16) 0%, transparent 70%),
+                radial-gradient(ellipse 55% 40% at 85% 95%, rgba(96,165,250,0.13) 0%, transparent 60%),
+                linear-gradient(rgba(4,10,18,0.94), rgba(5,12,22,0.97)),
+                url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 80vh;
+            overflow: hidden;
+        }
+
+        #page-2 .page-sentiment::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(16,185,129,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16,185,129,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.55;
+        }
+
+        #page-2 .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.17;
+        }
+        #page-2 .orb-1 { width: 520px; height: 520px; background: #10b981; top: -160px; right: -120px; }
+        #page-2 .orb-2 { width: 420px; height: 420px; background: #3b82f6; bottom: -120px; left: -100px; }
+
+        #page-2 .card {
+            position: relative;
+            border-radius: 20px;
+            background: linear-gradient(148deg, rgba(22,36,52,0.82) 0%, rgba(10,18,32,0.93) 100%);
+            border-top: 1px solid rgba(255,255,255,0.17);
+            border-left: 1px solid rgba(255,255,255,0.10);
+            border-right: 1px solid rgba(0,0,0,0.50);
+            border-bottom: 1px solid rgba(0,0,0,0.60);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow:
+                inset 0  1px 0 rgba(255,255,255,0.12),
+                inset 1px 0  0 rgba(255,255,255,0.06),
+                0  2px  0 rgba(0,0,0,0.70),
+                0  4px  0 rgba(0,0,0,0.55),
+                0  6px  0 rgba(0,0,0,0.38),
+                0  8px  0 rgba(0,0,0,0.22),
+                0 10px  0 rgba(0,0,0,0.10),
+                0 16px 40px rgba(0,0,0,0.60),
+                0 32px 64px rgba(0,0,0,0.45);
+            transform: perspective(1400px) rotateX(2.5deg);
+            transition: transform 0.38s cubic-bezier(.22,.68,0,1.2), box-shadow 0.38s ease;
+            z-index: 1;
+        }
+        #page-2 .card:hover {
+            transform: perspective(1400px) rotateX(0deg) translateY(-6px);
+            box-shadow:
+                inset 0  1px 0 rgba(255,255,255,0.18),
+                inset 1px 0  0 rgba(255,255,255,0.09),
+                0  2px  0 rgba(0,0,0,0.70),
+                0  4px  0 rgba(0,0,0,0.55),
+                0  6px  0 rgba(0,0,0,0.38),
+                0  8px  0 rgba(0,0,0,0.22),
+                0 10px  0 rgba(0,0,0,0.10),
+                0 22px 60px rgba(0,0,0,0.70),
+                0 40px 80px rgba(0,0,0,0.50);
+        }
+        #page-2 .card-green::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 21px;
+            background: linear-gradient(135deg, rgba(16,185,129,0.28), transparent 55%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        #page-2 .card-blue::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 21px;
+            background: linear-gradient(135deg, rgba(96,165,250,0.25), transparent 55%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        #page-2 .header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        #page-2 .logo-orb {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(16,185,129,0.28), rgba(96,165,250,0.18));
+            border: 1px solid rgba(16,185,129,0.42);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            box-shadow: 0 0 24px rgba(16,185,129,0.22), inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+        #page-2 .title-block { flex: 1; padding-left: 1rem; }
+        #page-2 .title-block h1 { font-size: 1.25rem; font-weight: 900; color: #fff; letter-spacing: -0.4px; }
+        #page-2 .title-block p { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+        #page-2 .title-block p em { color: #6ee7b7; font-style: italic; }
+        #page-2 .live-pill {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(16,185,129,0.10);
+            border: 1px solid rgba(16,185,129,0.28);
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #34d399;
+        }
+        #page-2 .pulse { width: 7px; height: 7px; border-radius: 50%; background: #34d399; animation: pulse 1.8s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.65)} }
+        #page-2 .stat-chip .val { font-size: 1.6rem; font-weight: 900; color: #6ee7b7; line-height: 1; }
+        #page-2 .stat-chip .lbl { font-size: 0.6rem; text-transform: uppercase; color: var(--muted); margin-top: 2px; letter-spacing: .07em; }
+
+        #page-2 .input-section { padding: 1.75rem 2rem; }
+        #page-2 .section-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 0.75rem; }
+        #page-2 textarea {
+            width: 100%;
+            height: 100px;
+            background: rgba(4,10,20,0.65);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 1rem 1.25rem;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.875rem;
+            color: #e2e8f0;
+            resize: none;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.50);
+        }
+        #page-2 textarea:focus { border-color: rgba(16,185,129,0.50); box-shadow: inset 0 2px 8px rgba(0,0,0,0.50), 0 0 0 3px rgba(16,185,129,0.11); }
+        #page-2 textarea::placeholder { color: #2a3a4a; }
+
+        #page-2 .btn-row { display: flex; gap: 10px; margin-top: 1rem; }
+        #page-2 .btn-primary {
+            flex: 1;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(to bottom, #059669, #047857);
+            border: none;
+            border-radius: 13px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #064e3b, 0 6px 20px rgba(5,150,105,0.38);
+            transition: transform 0.12s, box-shadow 0.12s, background 0.2s;
+        }
+        #page-2 .btn-primary:hover { background: linear-gradient(to bottom, #10b981, #059669); }
+        #page-2 .btn-primary:active { transform: translateY(3px); box-shadow: 0 1px 0 #064e3b; }
+        #page-2 .btn-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(22,36,52,0.70);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 13px;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s, transform 0.12s;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.50);
+        }
+        #page-2 .btn-icon:hover { background: rgba(16,185,129,0.16); color: #6ee7b7; border-color: rgba(16,185,129,0.28); }
+        #page-2 .btn-icon:active { transform: translateY(2px); }
+
+        #page-2 .panels-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+        @media(max-width:768px){ #page-2 .panels-grid { grid-template-columns: 1fr; } }
+
+        #page-2 .main-card { grid-column: span 2; padding: 1.5rem 1.75rem; position: relative; overflow: hidden; }
+        #page-2 .side-card { grid-column: span 1; padding: 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 1.4rem; }
+
+        #page-2 .heatmap-box {
+            position: relative;
+            background: rgba(4,10,20,0.60);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.875rem;
+            line-height: 1.80;
+            color: #64748b;
+            min-height: 80px;
+        }
+        #page-2 .hw  { background: rgba(16,185,129,0.22); border-radius: 4px; padding: 1px 5px; color: #6ee7b7; font-weight: 700; }
+        #page-2 .hwn { background: rgba(244,63,94,0.22); border-radius: 4px; padding: 1px 5px; color: #fca5a5; font-weight: 700; }
+        #page-2 .hwm { background: rgba(245,158,11,0.18); border-radius: 4px; padding: 1px 5px; color: #fcd34d; font-weight: 600; }
+
+        #page-2 .sent-bars { display: flex; flex-direction: column; gap: 9px; margin-top: 1rem; }
+        #page-2 .sent-row { display: flex; align-items: center; gap: 10px; }
+        #page-2 .sent-lbl { font-size: 0.7rem; font-weight: 600; width: 68px; text-align: right; color: #94a3b8; flex-shrink: 0; }
+        #page-2 .sent-track { flex: 1; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+        #page-2 .sent-fill { height: 100%; border-radius: 4px; width: 0; transition: width 0.9s cubic-bezier(.34,1.1,.64,1); }
+        #page-2 .sent-pct { font-size: 0.65rem; font-family: 'Space Grotesk', monospace; color: var(--muted); width: 34px; text-align: right; flex-shrink: 0; }
+
+        #page-2 .emoji-orb {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            margin: 0 auto;
+            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.12), rgba(0,0,0,0.30));
+            border: 1px solid rgba(255,255,255,0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.50), 0 8px 24px rgba(0,0,0,0.45);
+            transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+        }
+        #page-2 .emoji-orb:hover { transform: scale(1.08) rotate(-5deg); }
+        #page-2 .emoji-lbl { text-align: center; font-size: 0.62rem; text-transform: uppercase; letter-spacing: .08em; margin-top: 6px; transition: color 0.3s; color: var(--muted); }
+
+        #page-2 .conf-wrap { text-align: center; }
+        #page-2 .conf-val {
+            font-size: 2.4rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #10b981, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #page-2 .conf-lbl { font-size: 0.6rem; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin-top: 2px; }
+
+        #page-2 .pol-track {
+            height: 10px;
+            border-radius: 5px;
+            position: relative;
+            background: linear-gradient(to right, #f43f5e, #94a3b8 50%, #10b981);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.45), 0 0 12px rgba(16,185,129,0.12);
+        }
+        #page-2 .pol-thumb {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fff, #cbd5e1);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 3px 10px rgba(0,0,0,0.60);
+            transition: left 0.85s cubic-bezier(.34,1.2,.64,1);
+        }
+
+        #page-2 .subj-labels { display: flex; justify-content: space-between; font-size: 0.6rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 8px; }
+        #page-2 .subj-track { height: 10px; border-radius: 5px; background: linear-gradient(to right, #60a5fa, #a78bfa); position: relative; box-shadow: inset 0 2px 4px rgba(0,0,0,0.45); }
+        #page-2 .subj-thumb {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fff, #cbd5e1);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.15), 0 3px 10px rgba(0,0,0,0.60);
+            transition: left 0.85s cubic-bezier(.34,1.2,.64,1);
+        }
+
+        #page-2 .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        #page-2 .mini-chip { background: rgba(4,10,20,0.55); border-radius: 10px; padding: 0.65rem 0.85rem; border: 1px solid rgba(255,255,255,0.06); }
+        #page-2 .mini-lbl { font-size: 0.58rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 4px; }
+        #page-2 .mini-val { font-size: 1.05rem; font-weight: 800; font-family: 'Space Grotesk', monospace; }
+
+        #page-2 .divider { height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent); margin: 0.25rem 0; }
+        #page-2 .chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; font-size: 0.68rem; font-weight: 700; }
+
+        #page-2 .table-card { overflow: hidden; }
+        #page-2 .table-head { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.5rem 0.75rem; }
+        #page-2 .clear-log { font-size: 0.65rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); background: none; border: none; cursor: pointer; transition: color 0.2s; }
+        #page-2 .clear-log:hover { color: #6ee7b7; }
+
+        #page-2 table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+        #page-2 thead tr { border-bottom: 1px solid rgba(255,255,255,0.06); }
+        #page-2 th { padding: 0.7rem 1.25rem; text-align: left; color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.6rem; letter-spacing: .07em; }
+        #page-2 th:not(:first-child) { text-align: center; }
+        #page-2 tbody tr { transition: background 0.15s; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        #page-2 tbody tr:hover { background: rgba(255,255,255,0.04); }
+        #page-2 td { padding: 0.85rem 1.25rem; vertical-align: middle; }
+        #page-2 td:not(:first-child) { text-align: center; }
+        #page-2 .empty-row td { text-align: center; padding: 2.5rem; color: #1e3a4a; font-style: italic; font-size: 0.8rem; }
+
+        @keyframes scanline { 0%{top:0;opacity:.7} 50%{opacity:.3} 100%{top:100%;opacity:0} }
+        #page-2 .scanning .heatmap-box::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #10b981, transparent);
+            animation: scanline 0.85s ease forwards;
+        }
+
+        #page-2 .leg { display: flex; align-items: center; gap: 5px; font-size: 0.62rem; color: var(--muted); }
+        #page-2 .leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen relative">
+
+    <header class="bg-slate-950/75 backdrop-blur-xl border-b border-slate-900 sticky top-0 z-50 px-8 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchPage('page-1')">
+            <div class="bg-gradient-to-tr from-cyan-400 to-emerald-400 p-2 rounded-xl text-slate-950 text-lg shadow-lg shadow-cyan-400/20">
+                <i class="fas fa-wave-square animate-pulse"></i>
+            </div>
+            <span class="font-black text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-cyan-400">MindPulse</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-6 text-xs font-bold tracking-wide uppercase text-slate-400">
+            <a href="#" onclick="switchPage('page-1')" class="hover:text-cyan-400 text-cyan-400 transition">Home</a>
+            <a href="dashboard.html" class="hover:text-cyan-400 transition">Dashboard</a>
+            <a href="#" onclick="switchPage('page-7')" class="hover:text-cyan-400 transition">Login</a>
+            <a href="about.html" class="hover:text-cyan-400 transition">About Us</a>
+            <a href="FAQ.html" class="hover:text-cyan-400 transition">FAQ</a>
+            <a href="contact.html" class="hover:text-cyan-400 transition">Contact Us</a>
+            <a href="feedback.html" class="hover:text-cyan-400 transition">Feedback</a>
+            <a href="policy.html" class="hover:text-cyan-400 transition">Policy & Terms</a>
+        </nav>
+    </header>
+
+    <main class="w-full max-w-7xl mx-auto px-6 py-10">
+
+        <section id="page-1" class="page-view space-y-12">
+            
+            <div class="flex flex-col items-center justify-center text-center max-w-3xl mx-auto space-y-6 pt-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-cyan-950/70 border border-cyan-800/40 rounded-full text-xs text-cyan-400 font-semibold tracking-wide backdrop-blur-md">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Telemetry Engine Matrix Active
+                </div>
+                <h1 class="text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
+                    Understand Emotions.<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">Make Better Decisions.</span>
+                </h1>
+                <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl font-light">
+                    Analyze linguistic telemetry layers and human emotional patterns seamlessly through advanced semantic multidimensional vectors.
+                </p>
+                <div class="pt-2">
+                    <button onclick="location.href='choose_analysis.html'" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-500 hover:to-emerald-500 text-slate-950 font-black tracking-wide px-8 py-4 rounded-xl shadow-xl shadow-cyan-400/10 transition-all hover:scale-105 active:scale-95">
+                        Analyze Now
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-6 pt-2">
+                <div class="border-b border-slate-800/60 pb-3">
+                    <h2 class="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2">
+                        <i class="fas fa-cubes text-cyan-400"></i> Core Analytical Modules
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div onclick="location.href='sentiment.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-cyan-400 to-blue-500 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-chart-pie"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">1. Sentiment Analyzer</h4>
+                            <p class="text-xs text-slate-400 mt-1">Classify and evaluate standard text blocks instantly.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='emotion.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-amber-400 to-orange-500 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-smile"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">2. Emotion Detection</h4>
+                            <p class="text-xs text-slate-400 mt-1">Map specific hidden micro-emotional expressions fields accurately.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='sarcasm.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-teal-400 to-emerald-400 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-theater-masks"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">3. Sarcasm Detection</h4>
+                            <p class="text-xs text-slate-400 mt-1">Flag and identify deep contradictory behavioral irony metrics.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='profile.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-slate-400 to-slate-600 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-user"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">4. User Profile</h4>
+                            <p class="text-xs text-slate-400 mt-1">Modify structural configuration options records parameters.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='batch.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-emerald-400 to-cyan-400 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-layer-group"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">5. Batch Analysis</h4>
+                            <p class="text-xs text-slate-400 mt-1">Upload and extract patterns from massive file matrix tracks.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='real_time.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-blue-500 to-cyan-400 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-bolt"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">6. Real Time Analysis</h4>
+                            <p class="text-xs text-slate-400 mt-1">Synchronous live diagnostic analysis tracking evaluation loops.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='language.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-pink-500 to-rose-500 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-language"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">7. Multilingual Analysis</h4>
+                            <p class="text-xs text-slate-400 mt-1">Translate context semantics structures universally across dialects.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='social_media.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-sky-400 to-cyan-400 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fab fa-twitter"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">8. Social Media Analysis</h4>
+                            <p class="text-xs text-slate-400 mt-1">Harvest metadata sentiment strings from real-time global streams.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='report.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-purple-500 to-indigo-500 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-file-alt"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">9. Reports</h4>
+                            <p class="text-xs text-slate-400 mt-1">Compile data analytics arrays into structural files.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-2" class="page-view hidden max-w-4xl mx-auto space-y-6">
+            <div class="page page-sentiment">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+
+                <div class="card card-green">
+                    <div class="header">
+                        <div class="logo-orb">📈</div>
+                        <div class="title-block">
+                            <h1>Sentiment Analysis Pipeline</h1>
+                            <p>Deep polarity, subjectivity &amp; tone scoring from natural language. <em>Numbers behind every feeling.</em></p>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
+                            <div class="stat-chip">
+                                <div class="val" id="totalCount">0</div>
+                                <div class="lbl">Total analysed</div>
+                            </div>
+                            <div class="live-pill"><span class="pulse"></span> Model Live</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-blue">
+                    <div class="input-section">
+                        <div class="section-label">Input text stream</div>
+                        <textarea id="userText" placeholder="Paste any text — a review, tweet, comment, headline… The model will break it down."></textarea>
+                        <div class="btn-row">
+                            <button class="btn-primary" onclick="runModel()">
+                                <i class="fa-solid fa-chart-line" style="margin-right:8px;"></i>Analyse Sentiment
+                            </button>
+                            <button class="btn-icon" onclick="loadSample()" title="Load a sample text">
+                                <i class="fa-solid fa-dice"></i>
+                            </button>
+                            <button class="btn-icon" onclick="clearInput()" title="Clear input">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panels-grid">
+                    <div class="card main-card" id="mainCard">
+                        <div class="section-label">Keyword sentiment heatmap</div>
+                        <div style="display:flex; gap:14px; margin-bottom:8px; flex-wrap:wrap;">
+                            <div class="leg"><span class="leg-dot" style="background:#6ee7b7;"></span> Positive trigger</div>
+                            <div class="leg"><span class="leg-dot" style="background:#fcd34d;"></span> Neutral / mixed</div>
+                            <div class="leg"><span class="leg-dot" style="background:#fca5a5;"></span> Negative trigger</div>
+                        </div>
+                        <div class="heatmap-box" id="heatmapBox">Waiting for input analysis…</div>
+                        <div class="divider" style="margin:1.25rem 0 1rem;"></div>
+                        <div class="section-label">Sentiment class breakdown</div>
+                        <div class="sent-bars">
+                            <div class="sent-row">
+                                <span class="sent-lbl">Positive</span>
+                                <div class="sent-track"><div class="sent-fill" id="bar-pos" style="background:#10b981;"></div></div>
+                                <span class="sent-pct" id="pct-pos">0%</span>
+                            </div>
+                            <div class="sent-row">
+                                <span class="sent-lbl">Negative</span>
+                                <div class="sent-track"><div class="sent-fill" id="bar-neg" style="background:#f43f5e;"></div></div>
+                                <span class="sent-pct" id="pct-neg">0%</span>
+                            </div>
+                            <div class="sent-row">
+                                <span class="sent-lbl">Neutral</span>
+                                <div class="sent-track"><div class="sent-fill" id="bar-neu" style="background:#60a5fa;"></div></div>
+                                <span class="sent-pct" id="pct-neu">0%</span>
+                            </div>
+                            <div class="sent-row">
+                                <span class="sent-lbl">Mixed</span>
+                                <div class="sent-track"><div class="sent-fill" id="bar-mix" style="background:#f59e0b;"></div></div>
+                                <span class="sent-pct" id="pct-mix">0%</span>
+                            </div>
+                        </div>
+                        <div class="divider" style="margin:1rem 0 0.75rem;"></div>
+                        <div class="mini-grid">
+                            <div class="mini-chip">
+                                <div class="mini-lbl">Polarity score</div>
+                                <div class="mini-val" id="polarityVal" style="color:#10b981;">--</div>
+                            </div>
+                            <div class="mini-chip">
+                                <div class="mini-lbl">Subjectivity</div>
+                                <div class="mini-val" id="subjectivityVal" style="color:#60a5fa;">--</div>
+                            </div>
+                            <div class="mini-chip">
+                                <div class="mini-lbl">Verdict</div>
+                                <div class="mini-val" id="verdictVal" style="font-size:0.9rem;">--</div>
+                            </div>
+                            <div class="mini-chip">
+                                <div class="mini-lbl">Word count</div>
+                                <div class="mini-val" id="wordCountVal" style="color:#a78bfa;">--</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card side-card">
+                        <div>
+                            <div class="emoji-orb" id="emojiFace">🫙</div>
+                            <div class="emoji-lbl" id="emojiLabel">Awaiting input</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="conf-wrap">
+                            <div class="conf-val" id="confValue">--%</div>
+                            <div class="conf-lbl">Model confidence</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.6rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin-bottom:8px;">
+                                <span>Negative</span><span>Positive</span>
+                            </div>
+                            <div class="pol-track">
+                                <div class="pol-thumb" id="polThumb" style="left:50%"></div>
+                            </div>
+                            <div style="text-align:center; font-size:0.6rem; color:var(--muted); margin-top:6px; letter-spacing:.05em; text-transform:uppercase;">Polarity meter</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="subj-wrap">
+                            <div class="subj-labels"><span>Objective</span><span>Subjective</span></div>
+                            <div class="subj-track">
+                                <div class="subj-thumb" id="subjThumb" style="left:50%"></div>
+                            </div>
+                            <div style="text-align:center; font-size:0.6rem; color:var(--muted); margin-top:6px; letter-spacing:.05em; text-transform:uppercase;">Subjectivity meter</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card table-card">
+                    <div class="table-head">
+                        <div class="section-label">Analysis log</div>
+                        <button class="clear-log" onclick="clearTable()">Clear log</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Input snippet</th>
+                                <th>Polarity</th>
+                                <th>Subjectivity</th>
+                                <th>Confidence</th>
+                                <th>Words</th>
+                                <th>Verdict</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsBody">
+                            <tr class="empty-row">
+                                <td colspan="6">No analyses yet. Paste some text — the model is ready.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-3" class="page-view hidden max-w-4xl mx-auto space-y-6">
+            <h2 class="text-2xl font-bold text-white">Batch Analysis</h2>
+            <div class="border-2 border-dashed border-slate-800 glass-panel-3d rounded-2xl p-12 text-center space-y-4">
+                <i class="fas fa-cloud-upload-alt text-4xl text-cyan-400"></i>
+                <p class="text-sm text-slate-300">Drag & drop files here to load</p>
+                <button class="bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-xs">Choose Document</button>
+            </div>
+        </section>
+
+        <section id="page-4" class="page-view hidden max-w-4xl mx-auto space-y-6">
+            <h2 class="text-2xl font-bold text-white">Real-Time Evaluation Array</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><textarea class="w-full bg-slate-950/50 border border-slate-800 rounded-xl p-4 text-sm text-white" rows="3" placeholder="Type here..."></textarea></div>
+        </section>
+
+        <section id="page-5" class="page-view hidden space-y-6">
+            <h2 class="text-2xl font-bold text-white">Dashboard Telemetry Data</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-panel-3d p-4 rounded-xl"><p class="text-xs text-slate-400 uppercase tracking-wider">Total Evaluated</p><p class="text-2xl font-black text-white mt-1">1,250</p></div>
+                <div class="glass-panel-3d p-4 rounded-xl"><p class="text-xs text-slate-400 uppercase tracking-wider">Positive Ratio</p><p class="text-2xl font-black text-emerald-400 mt-1">620</p></div>
+                <div class="glass-panel-3d p-4 rounded-xl"><p class="text-xs text-slate-400 uppercase tracking-wider">Negative Ratio</p><p class="text-2xl font-black text-rose-400 mt-1">410</p></div>
+                <div class="glass-panel-3d p-4 rounded-xl"><p class="text-xs text-slate-400 uppercase tracking-wider">Neutral Stable</p><p class="text-2xl font-black text-slate-400 mt-1">220</p></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel-3d p-5 rounded-xl"><h3 class="text-sm font-bold mb-4">Sentiment Breakdown</h3><div class="h-44"><canvas id="distributionChart"></canvas></div></div>
+                <div class="glass-panel-3d p-5 rounded-xl"><h3 class="text-sm font-bold mb-4">Temporal Trend Timeline</h3><div class="h-44"><canvas id="trendChart"></canvas></div></div>
+            </div>
+        </section>
+
+        <section id="page-6" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">System Data Records</h2>
+            <div class="glass-panel-3d rounded-xl overflow-hidden text-xs"><div class="p-4 bg-slate-950/80 font-bold text-slate-400 grid grid-cols-2"><span>Report Variant</span><span>Action</span></div><div class="p-4 grid grid-cols-2"><span>April Analytics Matrix</span><span class="text-cyan-400 cursor-pointer">Download File</span></div></div>
+        </section>
+
+        <section id="page-7" class="page-view hidden max-w-md mx-auto pt-4">
+            <div class="glass-panel-3d p-8 rounded-3xl space-y-6 auth-container-3d">
+                
+                <div class="flex items-center bg-slate-950/60 p-1 rounded-xl border border-slate-800/80">
+                    <button id="tab-signin" onclick="toggleAuthMode('signin')" class="w-1/2 text-center py-2 text-xs font-black tracking-wider uppercase rounded-lg text-slate-950 bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all duration-300">
+                        Sign In
+                    </button>
+                    <button id="tab-signup" onclick="toggleAuthMode('signup')" class="w-1/2 text-center py-2 text-xs font-black tracking-wider uppercase rounded-lg text-slate-400 hover:text-white transition-all duration-300">
+                        Sign Up
+                    </button>
+                </div>
+
+                <div class="text-center space-y-1">
+                    <h3 id="auth-title" class="text-lg font-black text-white tracking-wide">Access Core Engine</h3>
+                    <p id="auth-desc" class="text-[11px] text-slate-400">Initialize your neural credentials loop.</p>
+                </div>
+
+                <form onsubmit="event.preventDefault();" class="space-y-4 text-xs">
+                    
+                    <div id="field-name" class="hidden space-y-1">
+                        <label class="block text-slate-400 font-semibold uppercase tracking-wider">Operator Identity Name</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"><i class="fas fa-user-astronaut"></i></span>
+                            <input type="text" placeholder="Rahul Kumar" class="w-full bg-slate-950/80 border border-slate-800 focus:border-cyan-500 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-slate-400 font-semibold uppercase tracking-wider">User Identity Email</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"><i class="fas fa-envelope"></i></span>
+                            <input type="email" placeholder="operator@mindpulse.ai" class="w-full bg-slate-950/80 border border-slate-800 focus:border-cyan-500 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-slate-400 font-semibold uppercase tracking-wider">Security Key Phrase</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"><i class="fas fa-lock"></i></span>
+                            <input type="password" placeholder="••••••••••••" class="w-full bg-slate-950/80 border border-slate-800 focus:border-cyan-500 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div id="field-terms" class="hidden items-center gap-2 pt-1">
+                        <input type="checkbox" id="auth-check" class="accent-cyan-500 rounded">
+                        <label for="auth-check" class="text-[11px] text-slate-400 select-none">I accept the structural telemetry service guidelines.</label>
+                    </div>
+
+                    <div class="pt-2">
+                        <button id="auth-btn" class="w-full bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-500 hover:to-emerald-500 text-slate-950 py-3.5 rounded-xl font-black uppercase tracking-widest transition-transform active:scale-95 shadow-lg shadow-cyan-400/10">
+                            Connect Node
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="page-8" class="page-view hidden max-w-md mx-auto">
+            <div class="glass-panel-3d p-6 rounded-2xl text-center space-y-4">
+                <div class="w-16 h-16 bg-gradient-to-tr from-cyan-400 to-emerald-400 text-slate-950 font-black text-xl rounded-full flex items-center justify-center mx-auto shadow-lg">RK</div>
+                <h3 class="text-xl font-bold text-white">Rahul Kumar</h3>
+                <p class="text-xs text-slate-400 font-mono">Profile Token Active</p>
+            </div>
+        </section>
+
+        <section id="page-10" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">Universal Multilingual Parser</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><textarea class="w-full bg-slate-950/50 border border-slate-800 rounded-xl p-4 text-sm text-white" rows="3">Estoy muy feliz con el producto, es excelente!</textarea></div>
+        </section>
+
+        <section id="page-11" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">Social Telemetry Track</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><input type="text" class="w-full bg-slate-955 border border-slate-800 p-3 rounded-xl text-xs text-white" value="#iPhone16"></div>
+        </section>
+
+        <section id="page-12" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">Granular Emotion Isolation Matrix</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><textarea class="w-full bg-slate-950/50 border border-slate-800 rounded-xl p-4 text-sm text-white" rows="3">I am so angry and frustrated!</textarea></div>
+        </section>
+
+        <section id="page-13" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">Contradictory Sarcasm Evaluation</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><textarea class="w-full bg-slate-955/50 border border-slate-800 rounded-xl p-4 text-sm text-white" rows="3">Oh great! Another update that breaks everything.</textarea></div>
+        </section>
+
+        <section id="page-14" class="page-view hidden max-w-2xl mx-auto text-center space-y-4">
+            <h2 class="text-2xl font-bold text-white">About MindPulse Ecosystem</h2>
+            <p class="text-slate-400 text-sm leading-relaxed">A high-fidelity modern text analytics terminal designed for modern telemetry extraction.</p>
+        </section>
+
+        <section id="page-17" class="page-view hidden max-w-2xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white text-center">FAQ Framework Documentation</h2>
+        </section>
+
+        <section id="page-18" class="page-view hidden max-w-md mx-auto">
+            <div class="glass-panel-3d p-6 rounded-2xl space-y-4">
+                <h3 class="text-lg font-bold text-white">Contact Terminal Gateway</h3>
+                <textarea class="w-full bg-slate-955 border border-slate-800 rounded-lg p-3 text-xs text-white" placeholder="Message string details..."></textarea>
+                <button class="w-full bg-cyan-400 text-slate-950 py-2 rounded-lg text-xs font-bold">Transmit Message</button>
+            </div>
+        </section>
+
+        <section id="page-19" class="page-view hidden max-w-md mx-auto">
+            <div class="glass-panel-3d p-6 rounded-2xl text-center space-y-4">
+                <h3 class="text-lg font-bold text-white">System Experience Evaluation</h3>
+                <button class="w-full bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 py-2 rounded-lg text-xs font-bold">Submit Feedback</button>
+            </div>
+        </section>
+
+        <section id="page-20" class="page-view hidden max-w-2xl mx-auto">
+            <div class="glass-panel-3d p-6 rounded-2xl text-xs text-slate-400 space-y-2">
+                <h3 class="text-sm font-bold text-white">Policy Documentation and Structural Terms</h3>
+                <p>Protected operations protocol metrics apply globally to all functional user nodes.</p>
+            </div>
+        </section>
+
+    </main>
+    <script>
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-view').forEach(view => view.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+
+            // Dynamic navbar link highlighting
+            const navLinks = document.querySelectorAll('header nav a');
+            navLinks.forEach(link => {
+                const onclickAttr = link.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(pageId)) {
+                    link.classList.add('text-cyan-400');
+                } else if (onclickAttr && onclickAttr.includes('switchPage')) {
+                    link.classList.remove('text-cyan-400');
+                }
+            });
+
+            // Scroll to view header anchor point smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Handle hash-based routing for in-page views
+        function handleRouting() {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetPage = hash.substring(1); // remove '#'
+                const element = document.getElementById(targetPage);
+                if (element && element.classList.contains('page-view')) {
+                    switchPage(targetPage);
+                    return;
+                }
+            }
+            switchPage('page-1');
+        }
+
+        window.addEventListener('hashchange', handleRouting);
+        window.addEventListener('load', handleRouting);
+
+        /* Authentication View Configuration Modality Toggle */
+        function toggleAuthMode(mode) {
+            const tabSignIn = document.getElementById('tab-signin');
+            const tabSignUp = document.getElementById('tab-signup');
+            const fieldName = document.getElementById('field-name');
+            const fieldTerms = document.getElementById('field-terms');
+            const authTitle = document.getElementById('auth-title');
+            const authDesc = document.getElementById('auth-desc');
+            const authBtn = document.getElementById('auth-btn');
+
+            const activeClasses = ['text-slate-950', 'bg-gradient-to-r', 'from-cyan-400', 'to-emerald-400'];
+            const inactiveClasses = ['text-slate-400', 'hover:text-white'];
+
+            if (mode === 'signup') {
+                tabSignUp.classList.add(...activeClasses);
+                tabSignUp.classList.remove(...inactiveClasses);
+                tabSignIn.classList.remove(...activeClasses);
+                tabSignIn.classList.add(...inactiveClasses);
+
+                fieldName.classList.remove('hidden');
+                fieldTerms.classList.remove('hidden');
+                fieldTerms.classList.add('flex');
+                authTitle.innerText = "Register System Node";
+                authDesc.innerText = "Generate a new cryptographic entry token.";
+                authBtn.innerText = "Create Account";
+            } else {
+                tabSignIn.classList.add(...activeClasses);
+                tabSignIn.classList.remove(...inactiveClasses);
+                tabSignUp.classList.remove(...activeClasses);
+                tabSignUp.classList.add(...inactiveClasses);
+
+                fieldName.classList.add('hidden');
+                fieldTerms.classList.remove('flex');
+                fieldTerms.classList.add('hidden');
+                authTitle.innerText = "Access Core Engine";
+                authDesc.innerText = "Initialize your neural credentials loop.";
+                authBtn.innerText = "Connect Node";
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const ctxDist = document.getElementById('distributionChart').getContext('2d');
+            new Chart(ctxDist, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Pos', 'Neg', 'Neu'],
+                    datasets: [{ data: [620, 410, 220], backgroundColor: ['#10b981', '#f43f5e', '#64748b'], borderWidth: 0 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            const ctxTrend = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctxTrend, {
+                type: 'line',
+                data: {
+                    labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+                    datasets: [{ data: [65, 78, 72, 89, 85, 92, 94], borderColor: '#06b6d4', tension: 0.4, fill: false }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+        });
+
+    </script>
+    <script>
+        // Sentiment UI logic merged from sentiment.html
+        let totalCount = 0;
+
+        const samples = [
+            "I absolutely love the new interface update — it feels so smooth and intuitive, a huge improvement over last year.",
+            "The customer support was completely useless. Waited 3 days and got a copy-paste reply that didn't address anything.",
+            "It was okay. Not great, not terrible. Does the job but nothing special stood out to me.",
+            "Honestly a mixed bag — the design is gorgeous but the performance is sluggish and battery drain is terrible.",
+            "The keynote was surprisingly inspiring. I didn't expect much but walked away genuinely motivated to build something.",
+            "Deeply disappointed. The product looked amazing in the demo but real-world usage is a completely different story.",
+            "Pretty decent overall. A few rough edges but the core experience is solid and the team is clearly improving fast.",
+        ];
+
+        function loadSample() {
+            document.getElementById('userText').value = samples[Math.floor(Math.random() * samples.length)];
+        }
+
+        function clearInput() {
+            document.getElementById('userText').value = '';
+            document.getElementById('heatmapBox').innerHTML = 'Waiting for input analysis…';
+            document.getElementById('heatmapBox').style.color = '#64748b';
+            document.getElementById('confValue').innerText = '--%';
+            document.getElementById('emojiFace').innerText = '🫙';
+            document.getElementById('emojiLabel').innerText = 'Awaiting input';
+            document.getElementById('emojiLabel').style.color = '';
+            document.getElementById('polarityVal').innerText = '--';
+            document.getElementById('subjectivityVal').innerText = '--';
+            document.getElementById('verdictVal').innerText = '--';
+            document.getElementById('wordCountVal').innerText = '--';
+            document.getElementById('polThumb').style.left = '50%';
+            document.getElementById('subjThumb').style.left = '50%';
+            ['pos','neg','neu','mix'].forEach(k => {
+                document.getElementById('bar-' + k).style.width = '0%';
+                document.getElementById('pct-' + k).innerText = '0%';
+            });
+        }
+
+        function runModel() {
+            const input = document.getElementById('userText').value.trim();
+            if (!input) return;
+
+            // Scan animation
+            const mc = document.getElementById('mainCard');
+            mc.classList.add('scanning');
+            setTimeout(() => mc.classList.remove('scanning'), 900);
+
+            const words = input.split(/\s+/);
+            const wordCount = words.length;
+
+            // Simulated polarity & subjectivity
+            const polarity     = parseFloat((Math.random() * 2 - 1).toFixed(2));
+            const subjectivity = parseFloat((Math.random() * 0.7 + 0.2).toFixed(2));
+            const confidence   = (Math.random() * 8 + 90).toFixed(1);
+
+            // Sentiment class scores that sum to 100
+            let pos, neg, neu, mix;
+            if (polarity > 0.3) {
+                pos = Math.round(Math.random() * 25 + 55);
+                neg = Math.round(Math.random() * 10);
+                mix = Math.round(Math.random() * 15);
+                neu = 100 - pos - neg - mix;
+            } else if (polarity < -0.3) {
+                neg = Math.round(Math.random() * 25 + 55);
+                pos = Math.round(Math.random() * 10);
+                mix = Math.round(Math.random() * 15);
+                neu = 100 - neg - pos - mix;
+            } else {
+                neu = Math.round(Math.random() * 20 + 35);
+                mix = Math.round(Math.random() * 20 + 20);
+                pos = Math.round(Math.random() * 20 + 5);
+                neg = 100 - neu - mix - pos;
+            }
+            [pos, neg, neu, mix] = [pos, neg, neu, mix].map(v => Math.max(0, v));
+
+            // Verdict
+            let verdict, verdictColor, face, faceLabel;
+            if (polarity > 0.5)       { verdict = '🟢 Very Positive'; verdictColor = '#34d399'; face = '😄'; faceLabel = 'Very positive'; }
+            else if (polarity > 0.15) { verdict = '✅ Positive';      verdictColor = '#10b981'; face = '🙂'; faceLabel = 'Positive tone'; }
+            else if (polarity < -0.5) { verdict = '🔴 Very Negative'; verdictColor = '#f43f5e'; face = '😠'; faceLabel = 'Very negative'; }
+            else if (polarity < -0.15){ verdict = '❌ Negative';      verdictColor = '#fb7185'; face = '😟'; faceLabel = 'Negative tone'; }
+            else                       { verdict = '⚖️ Neutral';       verdictColor = '#60a5fa'; face = '😐'; faceLabel = 'Neutral / mixed'; }
+
+            // Update bars
+            document.getElementById('bar-pos').style.width = pos + '%'; document.getElementById('pct-pos').innerText = pos + '%';
+            document.getElementById('bar-neg').style.width = neg + '%'; document.getElementById('pct-neg').innerText = neg + '%';
+            document.getElementById('bar-neu').style.width = neu + '%'; document.getElementById('pct-neu').innerText = neu + '%';
+            document.getElementById('bar-mix').style.width = mix + '%'; document.getElementById('pct-mix').innerText = mix + '%';
+
+            // Meters
+            document.getElementById('polThumb').style.left  = Math.min(Math.max(((polarity + 1) / 2) * 100, 5), 95) + '%';
+            document.getElementById('subjThumb').style.left = Math.min(Math.max(subjectivity * 100, 5), 95) + '%';
+
+            // Mini chips
+            document.getElementById('polarityVal').innerText    = (polarity >= 0 ? '+' : '') + polarity.toFixed(2);
+            document.getElementById('polarityVal').style.color  = polarity > 0.15 ? '#34d399' : polarity < -0.15 ? '#fb7185' : '#60a5fa';
+            document.getElementById('subjectivityVal').innerText = subjectivity.toFixed(2);
+            document.getElementById('verdictVal').innerText      = verdict;
+            document.getElementById('verdictVal').style.color    = verdictColor;
+            document.getElementById('wordCountVal').innerText    = wordCount;
+
+            // Confidence
+            document.getElementById('confValue').innerText = confidence + '%';
+
+            // Emoji
+            document.getElementById('emojiFace').innerText  = face;
+            document.getElementById('emojiLabel').innerText = faceLabel;
+            document.getElementById('emojiLabel').style.color = verdictColor;
+
+            // Heatmap
+            const positiveWords = new Set(['love','great','amazing','awesome','good','excellent','best','beautiful','fantastic','wonderful','happy','perfect','impressive','smooth','intuitive','inspiring','motivated','solid','gorgeous','surprisingly','inspiring','improved','improvement','inspiring']);
+            const negativeWords = new Set(['hate','terrible','awful','bad','worst','horrible','poor','disappointing','useless','frustrated','slow','sluggish','fail','failed','broken','disappointed','useless','terrible','completely','drain','rough','dropped']);
+            const html = words.map(w => {
+                const clean = w.toLowerCase().replace(/[^a-z]/g, '');
+                if (positiveWords.has(clean)) return `<span class="hw">${w}</span>`;
+                if (negativeWords.has(clean)) return `<span class="hwn">${w}</span>`;
+                if (Math.random() > 0.82 && polarity > -0.3 && polarity < 0.3) return `<span class="hwm">${w}</span>`;
+                return w;
+            }).join(' ');
+            const box = document.getElementById('heatmapBox');
+            box.innerHTML = html;
+            box.style.color = '#e2e8f0';
+
+            // Counter
+            totalCount++;
+            document.getElementById('totalCount').innerText = totalCount;
+
+            // Table row
+            document.querySelector('.empty-row')?.remove();
+            const tbody = document.getElementById('resultsBody');
+            const row   = document.createElement('tr');
+            const chip  = `<span class="chip" style="background:${verdictColor}18; color:${verdictColor}; border:1px solid ${verdictColor}33;">${verdict}</span>`;
+            row.innerHTML = `
+                <td style="color:#94a3b8; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                    ${input.length > 42 ? input.substring(0,42) + '…' : input}
+                </td>
+                <td style="font-family:'Space Grotesk',monospace; color:${polarity>0.15?'#34d399':polarity<-0.15?'#fb7185':'#60a5fa'}; font-weight:700;">
+                    ${(polarity>=0?'+':'') + polarity.toFixed(2)}
+                </td>
+                <td style="font-family:'Space Grotesk',monospace; color:#a78bfa;">${subjectivity.toFixed(2)}</td>
+                <td style="color:#94a3b8;">${confidence}%</td>
+                <td style="color:#64748b; font-family:'Space Grotesk',monospace;">${wordCount}</td>
+                <td>${chip}</td>
+            `;
+            tbody.prepend(row);
+        }
+
+        function clearTable() {
+            document.getElementById('resultsBody').innerHTML =
+                `<tr class="empty-row"><td colspan="6">No analyses yet. Paste some text — the model is ready.</td></tr>`;
+            totalCount = 0;
+            document.getElementById('totalCount').innerText = 0;
+        }
+    </script>
+
+    <!-- Luna Cute Chatbot Sign -->
+    <div id="luna-chatbot" class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-3 select-none">
+        <!-- Speech Bubble -->
+        <div id="luna-bubble" class="bg-slate-900/95 backdrop-blur-md border border-cyan-500/30 text-white rounded-2xl px-4 py-2.5 text-xs shadow-xl shadow-black/50 relative max-w-[220px] transform scale-0 origin-bottom-right transition-all duration-300 ease-out">
+            <div class="flex items-center gap-2">
+                <span id="luna-text" class="font-medium text-slate-200"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
+            </div>
+        </div>
+
+        <!-- Chat Window -->
+        <div id="luna-window" class="hidden w-[350px] h-[480px] bg-slate-950/95 backdrop-blur-xl border border-cyan-500/30 text-white rounded-2xl shadow-[0_20px_50px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden transform scale-0 origin-bottom-right transition-all duration-300 ease-out z-[101] relative">
+            <!-- Header -->
+            <div class="px-4 py-3 bg-slate-900/80 border-b border-cyan-500/20 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 to-emerald-400 flex items-center justify-center text-slate-950 text-sm shadow-md shadow-cyan-400/20">
+                        <i class="fas fa-robot animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xs tracking-wider text-white">LUNA AI CORE</h4>
+                        <div class="flex items-center gap-1.5 mt-0.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Core Status: Online</span>
+                        </div>
+                    </div>
+                </div>
+                <button id="luna-close" class="text-slate-400 hover:text-white transition cursor-pointer text-sm w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/10">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Messages Box -->
+            <div id="luna-messages" class="flex-grow p-4 overflow-y-auto space-y-3.5 luna-messages-container bg-slate-950/40">
+                <!-- System Loader -->
+                <div id="luna-loader" class="space-y-1.5 font-mono text-[10px] text-cyan-400/80 bg-slate-900/50 p-3 rounded-xl border border-cyan-500/10">
+                </div>
+            </div>
+
+            <!-- Suggestion Chips -->
+            <div id="luna-suggestions" class="px-4 py-2 bg-slate-900/20 border-t border-slate-900/50 flex flex-wrap gap-1.5 shrink-0 select-none max-h-[100px] overflow-y-auto luna-messages-container">
+                <!-- Chips are inserted dynamically -->
+            </div>
+
+            <!-- Footer Input -->
+            <div class="p-3 bg-slate-900/60 border-t border-cyan-500/10 flex items-center gap-2 shrink-0">
+                <input type="text" id="luna-input" placeholder="Ask Luna a question..." class="flex-grow bg-slate-950/80 border border-slate-800/85 rounded-xl px-3 py-2.5 text-xs text-slate-200 outline-none focus:border-cyan-500/50 transition font-sans placeholder:text-slate-600">
+                <button id="luna-send" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-400 to-emerald-400 flex items-center justify-center text-slate-950 hover:scale-105 active:scale-95 transition cursor-pointer text-xs shadow-md shadow-cyan-400/20">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chatbot Button -->
+        <button id="luna-btn" class="w-14 h-14 bg-gradient-to-tr from-cyan-400 to-emerald-400 rounded-full flex items-center justify-center text-slate-950 text-2xl shadow-lg shadow-cyan-400/30 hover:scale-110 active:scale-95 transition-all duration-300 relative group cursor-pointer border border-white/10">
+            <!-- Floating Glow Aura -->
+            <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-cyan-400 to-emerald-400 blur-md opacity-40 group-hover:opacity-75 transition-opacity duration-300"></span>
+            <!-- Robot Icon -->
+            <i class="fas fa-robot relative z-10 transition-transform duration-500 group-hover:rotate-12"></i>
+            <!-- Pulse Online Status Indicator -->
+            <span class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 border-2 border-slate-950 rounded-full"></span>
+        </button>
+    </div>
+
+    <style>
+        #luna-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 22px;
+            width: 10px;
+            height: 10px;
+            background: #0f172a; /* slate-900 */
+            border-right: 1px solid rgba(6, 182, 212, 0.3); /* cyan-500/30 */
+            border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+            transform: rotate(45deg);
+        }
+
+        /* Custom styled thin scrollbar for Chat Window */
+        .luna-messages-container::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .luna-messages-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .luna-messages-container::-webkit-scrollbar-thumb {
+            background: rgba(6, 182, 212, 0.25);
+            border-radius: 999px;
+        }
+        .luna-messages-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(6, 182, 212, 0.55);
+        }
+
+        /* Message custom formatting classes */
+        #luna-messages li {
+            margin-left: 16px;
+            list-style-type: disc;
+            margin-top: 4px;
+        }
+
+        @keyframes lunaFadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-lunaFadeIn {
+            animation: lunaFadeIn 0.25s ease-out forwards;
+        }
+    </style>
+
+    <script>
+        // Chatbot Q&A Knowledge Base
+        const chatbotDatabase = [
+            {
+                keywords: ["accuracy", "accurate", "precision", "correct", "wrong", "metrics", "reliable", "score", "confidence"],
+                question: "How accurate is the sentiment analyzer?",
+                response: "MindPulse uses dedicated sentiment and emotion models to score text with confidence levels and explainable results. The system is designed to give useful, context-aware outputs rather than just simple keyword matches."
+            },
+            {
+                keywords: ["format", "csv", "json", "txt", "file", "upload", "batch", "data", "input", "import", "dataset"],
+                question: "What file formats does batch analysis support?",
+                response: "The batch workflow supports JSON datasets, CSV files, and raw text inputs so you can analyze larger collections without switching tools."
+            },
+            {
+                keywords: ["sarcasm", "sarcastic", "irony", "joke", "wit", "insincere", "satire", "literal"],
+                question: "Can the terminal genuinely catch sarcasm?",
+                response: "Yes. The sarcasm module looks for contradiction, tone shifts, and sarcastic cues so it can flag content that sounds literal on the surface but is actually ironic."
+            },
+            {
+                keywords: ["language", "languages", "multilingual", "spanish", "french", "german", "english", "operational", "dialects"],
+                question: "How many languages are operational?",
+                response: "The platform is built for multilingual text analysis and can work with several languages through its text-processing pipeline."
+            },
+            {
+                keywords: ["telemetry", "data", "safe", "privacy", "secure", "save", "log", "preserve", "protect", "private"],
+                question: "Is my telemetry data safely preserved?",
+                response: "The app is designed to keep analysis local and focused on your current session. It does not rely on a permanent external log for everyday use."
+            },
+            {
+                keywords: ["export", "download", "report", "csv", "excel", "sheet", "pdf", "save report", "generate report", "download report"],
+                question: "How do I export the evaluation data reports?",
+                response: "Use the Reports section in the dashboard to generate and download your evaluation output in a structured format."
+            },
+            {
+                keywords: ["profile", "login", "register", "signin", "account", "premium", "sign up", "credentials"],
+                question: "Do I need login to use the app?",
+                response: "You can use the core analysis pages without logging in, but an account may be useful for saved dashboards, profile features, or additional tools."
+            },
+            {
+                keywords: ["what is mindpulse", "what is this", "mindpulse", "system", "project", "app", "website", "platform"],
+                question: "What is MindPulse?",
+                response: "MindPulse is an AI-powered analysis hub for sentiment, emotion, sarcasm, and text insights. It combines live analysis, reports, and visual dashboards in one place."
+            },
+            {
+                keywords: ["who is luna", "who are you", "what are you", "name", "luna", "bot", "assistant", "chatbot"],
+                question: "Who is Luna?",
+                response: "I am Luna, your MindPulse assistant. I can help you understand the analysis pages, explain the models, and answer questions about sentiment, emotion, sarcasm, reports, and navigation."
+            },
+            {
+                keywords: ["model", "models", "algorithm", "keras", "neural", "bert", "tensorflow", "weights", "architecture", "deep learning"],
+                question: "What AI models are you using?",
+                response: "MindPulse combines transformer-based text analysis with specialized classification models for emotion, sentiment, and sarcasm detection."
+            },
+            {
+                keywords: ["emotion", "emotions", "angry", "sad", "happy", "joy", "fear", "affective", "state", "feelings"],
+                question: "How does emotion detection work?",
+                response: "The emotion page analyzes the text for emotional cues and maps them into visual scores for key states like joy, sadness, anger, fear, surprise, and love."
+            },
+            {
+                keywords: ["sentiment", "positive", "negative", "neutral", "polarity", "tone", "subjectivity"],
+                question: "How does sentiment analysis work?",
+                response: "The sentiment page evaluates the text for polarity and tone, then shows whether the message leans positive, negative, or neutral."
+            },
+            {
+                keywords: ["dashboard", "home", "main page", "menu", "navigation", "pages", "website", "start"],
+                question: "Where should I start?",
+                response: "Start from the home page and then open the analysis page that fits your need: Sentiment, Emotion, or Sarcasm."
+            },
+            {
+                keywords: ["real time", "realtime", "live", "instant", "online"],
+                question: "Can I use real-time analysis?",
+                response: "Yes. The real-time and analysis pages are designed for quick live text evaluation."
+            },
+            {
+                keywords: ["social media", "social", "twitter", "instagram", "facebook", "posts"],
+                question: "Can I analyze social media text?",
+                response: "Yes. The social media analysis section is meant for posts and short-form text from social platforms."
+            },
+            {
+                keywords: ["batch", "bulk", "large", "many", "multiple", "file"],
+                question: "Can I analyze many texts at once?",
+                response: "Yes. The batch analysis page is built for processing multiple text entries together."
+            },
+            {
+                keywords: ["about", "about us", "team", "creator", "developers"],
+                question: "Tell me about the project",
+                response: "MindPulse is a student-friendly AI analysis platform focused on understanding language, emotion, sarcasm, and sentiment through interactive web tools."
+            },
+            {
+                keywords: ["contact", "feedback", "faq", "policy", "terms", "help"],
+                question: "Where can I contact or give feedback?",
+                response: "You can use the Contact, Feedback, FAQ, and Policy pages from the site navigation."
+            },
+            {
+                keywords: ["hi", "hello", "hey", "greetings", "good morning", "good afternoon", "yo"],
+                question: "Greetings",
+                response: "Hello! I am Luna. The MindPulse core engine is online. How can I help you today? 🤖✨"
+            },
+            {
+                keywords: ["thanks", "thank you", "great", "awesome", "perfect", "ok", "bye", "goodbye"],
+                question: "Thank you / Goodbye",
+                response: "You are very welcome! Ask me anything about the MindPulse pages, models, or analysis workflow. 🧠📡"
+            }
+        ];
+
+        function getRouteGuidance(query) {
+            if (/(sentiment|positive|negative|neutral|polarity|tone)/.test(query)) {
+                return "Open the Sentiment page to analyze polarity and tone for a text sample.";
+            }
+            if (/(emotion|feel|feeling|happy|sad|angry|fear|joy)/.test(query)) {
+                return "Open the Emotion page to inspect emotional intensity and dominant feeling states.";
+            }
+            if (/(sarcasm|irony|literal|joke)/.test(query)) {
+                return "Open the Sarcasm page to test whether a sentence sounds ironic or sarcastic.";
+            }
+            if (/(batch|many|multiple|dataset|file)/.test(query)) {
+                return "Use the Batch Analysis page to process several inputs together.";
+            }
+            if (/(social|post|tweet|instagram|facebook)/.test(query)) {
+                return "Use the Social Media page for short-form social text analysis.";
+            }
+            if (/(report|download|export)/.test(query)) {
+                return "Visit the Reports section from the dashboard to generate and export results.";
+            }
+            if (/(login|account|profile)/.test(query)) {
+                return "You can use the core tools without logging in, but profile features may need an account.";
+            }
+            if (/(contact|feedback|faq|policy|terms)/.test(query)) {
+                return "The Contact, Feedback, FAQ, and Policy pages are available from the site navigation.";
+            }
+            return null;
+        }
+
+        // Search matching algorithm
+        function getChatbotResponse(input) {
+            const query = input.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+            if (!query) return "Please enter a question, and I'll do my best to assist you!";
+
+            const routeGuidance = getRouteGuidance(query);
+            if (routeGuidance) {
+                return routeGuidance + "\nIf you want, I can also explain the feature in more detail.";
+            }
+
+            let bestMatch = null;
+            let maxScore = 0;
+
+            chatbotDatabase.forEach(item => {
+                let score = 0;
+
+                const cleanQuestion = item.question.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                if (query.includes(cleanQuestion) || cleanQuestion.includes(query)) {
+                    score += 8;
+                }
+
+                const queryWords = query.split(/\s+/);
+                item.keywords.forEach(kw => {
+                    queryWords.forEach(word => {
+                        if (word === kw) {
+                            score += 2.5;
+                        } else if (word.includes(kw) || kw.includes(word)) {
+                            if (word.length > 3) {
+                                score += 0.8;
+                            }
+                        }
+                    });
+                });
+
+                if (score > maxScore) {
+                    maxScore = score;
+                    bestMatch = item;
+                }
+            });
+
+            if (maxScore >= 1.5) {
+                return bestMatch.response;
+            }
+
+            if (/(how|what|where|can|do|tell|explain|help)/.test(query)) {
+                return "I can help with the MindPulse analysis pages, reports, login/profile questions, and general guidance. Try asking about sentiment, emotion, sarcasm, batch analysis, social media, or reports.";
+            }
+
+            return "I can help with the MindPulse analysis pages, reports, login/profile questions, and general guidance. Try asking about sentiment, emotion, sarcasm, batch analysis, social media, or reports.";
+        }
+
+        // Luna Chatbot Sign logic
+        function initLuna() {
+            const bubble = document.getElementById('luna-bubble');
+            const textEl = document.getElementById('luna-text');
+            const btn = document.getElementById('luna-btn');
+            const windowEl = document.getElementById('luna-window');
+            const closeBtn = document.getElementById('luna-close');
+            const messagesEl = document.getElementById('luna-messages');
+            const inputEl = document.getElementById('luna-input');
+            const sendBtn = document.getElementById('luna-send');
+            const suggestionsEl = document.getElementById('luna-suggestions');
+            
+            const greetings = [
+                "Hi, I am Luna! 🤖",
+                "Need help analyzing text emotions? 🧠",
+                "I'm scanning emotional telemetry... 📡",
+                "Let's decrypt some sarcasm today! 🎭",
+                "Powered by MindPulse core engine. ✨"
+            ];
+            
+            let currentGreetingIdx = 0;
+            let typingTimer = null;
+            let isWindowOpen = false;
+            let isInitialized = false;
+            
+            function typeMessage(message) {
+                if (typingTimer) clearTimeout(typingTimer);
+                textEl.textContent = "";
+                let i = 0;
+                function type() {
+                    if (i < message.length) {
+                        textEl.textContent += message.charAt(i);
+                        i++;
+                        typingTimer = setTimeout(type, 60);
+                    }
+                }
+                type();
+            }
+            
+            // Auto start first greeting
+            setTimeout(() => {
+                if (!isWindowOpen) {
+                    bubble.classList.remove('scale-0');
+                    bubble.classList.add('scale-100');
+                    typeMessage(greetings[0]);
+                }
+            }, 1500);
+            
+            // Click to cycle greetings or toggle chat
+            btn.addEventListener('click', () => {
+                if (isWindowOpen) {
+                    closeChat();
+                } else {
+                    openChat();
+                }
+                
+                const icon = btn.querySelector('i');
+                icon.classList.add('fa-spin');
+                setTimeout(() => icon.classList.remove('fa-spin'), 1000);
+            });
+
+            closeBtn.addEventListener('click', closeChat);
+
+            function openChat() {
+                isWindowOpen = true;
+                bubble.classList.remove('scale-100');
+                bubble.classList.add('scale-0');
+                setTimeout(() => {
+                    if (isWindowOpen) bubble.classList.add('hidden');
+                }, 300);
+                
+                windowEl.classList.remove('hidden');
+                setTimeout(() => {
+                    if (isWindowOpen) {
+                        windowEl.classList.remove('scale-0');
+                        windowEl.classList.add('scale-100');
+                    }
+                }, 50);
+
+                if (!isInitialized) {
+                    runBootSequence();
+                }
+            }
+
+            function closeChat() {
+                isWindowOpen = false;
+                windowEl.classList.remove('scale-100');
+                windowEl.classList.add('scale-0');
+                setTimeout(() => {
+                    if (!isWindowOpen) windowEl.classList.add('hidden');
+                }, 300);
+                
+                bubble.classList.remove('hidden');
+                setTimeout(() => {
+                    if (!isWindowOpen) {
+                        bubble.classList.remove('scale-0');
+                        bubble.classList.add('scale-100');
+                        typeMessage(greetings[currentGreetingIdx]);
+                    }
+                }, 50);
+            }
+
+            // Suggestions data
+            const suggestions = [
+                "How accurate is the analyzer?",
+                "Can it catch sarcasm?",
+                "Is my data safe?",
+                "How many languages are operational?"
+            ];
+
+            function renderSuggestions() {
+                suggestionsEl.innerHTML = "";
+                suggestions.forEach(text => {
+                    const chip = document.createElement("button");
+                    chip.className = "px-2.5 py-1 rounded-lg bg-cyan-950/40 hover:bg-cyan-950/80 border border-cyan-800/30 hover:border-cyan-500/40 text-cyan-400 text-[10px] font-semibold cursor-pointer transition active:scale-95";
+                    chip.textContent = text;
+                    chip.addEventListener("click", () => {
+                        handleSendMessage(text);
+                    });
+                    suggestionsEl.appendChild(chip);
+                });
+            }
+
+            function runBootSequence() {
+                isInitialized = true;
+                const logs = [
+                    "Initializing Luna Neural Engine v3.13.2...",
+                    "Loading tokenizer_config.json... (BertTokenizer structure mapped)",
+                    "Restoring encoder.keras weights... (dimension: 256, shape matrix parsed)",
+                    "Restoring decoder.keras weights... (BahdanauAttention decoder loaded)",
+                    "Seq2Seq model layers bound. System parameters stabilized.",
+                    "Connecting to MindPulse core telemetry..."
+                ];
+                
+                const loader = document.getElementById('luna-loader');
+                loader.innerHTML = "";
+                
+                let logIdx = 0;
+                function addLog() {
+                    if (logIdx < logs.length) {
+                        const div = document.createElement("div");
+                        div.className = "flex items-center gap-2 border-b border-cyan-500/5 pb-1 last:border-b-0";
+                        const time = new Date().toLocaleTimeString();
+                        div.innerHTML = `<span class="text-slate-500">[${time}]</span> <span class="text-cyan-400 font-bold">></span> <span>${logs[logIdx]}</span>`;
+                        loader.appendChild(div);
+                        messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+                        logIdx++;
+                        setTimeout(addLog, 220);
+                    } else {
+                        // Boot complete
+                        setTimeout(() => {
+                            loader.style.transition = "opacity 0.4s ease";
+                            loader.style.opacity = 0;
+                            setTimeout(() => {
+                                loader.remove();
+                                // Add welcome message
+                                appendLunaMessage("Hello! MindPulse telemetry systems are fully connected. I am ready to answer your questions about sentiment metrics, language models, or sarcasm analysis. Ask me anything!");
+                                renderSuggestions();
+                            }, 400);
+                        }, 500);
+                    }
+                }
+                
+                addLog();
+            }
+
+            // Send action handlers
+            sendBtn.addEventListener('click', () => {
+                handleSendMessage();
+            });
+
+            inputEl.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleSendMessage();
+                }
+            });
+
+            function handleSendMessage(text) {
+                const query = (text || inputEl.value).trim();
+                if (!query) return;
+
+                if (!text) {
+                    inputEl.value = "";
+                }
+
+                // Append user message
+                appendUserMessage(query);
+
+                // Show typing indicator
+                showTypingIndicator();
+
+                // Generate response
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    const response = getChatbotResponse(query);
+                    appendLunaMessage(response);
+                }, 600 + Math.random() * 400);
+            }
+
+            function appendUserMessage(text) {
+                const container = document.createElement("div");
+                container.className = "flex justify-end animate-lunaFadeIn";
+                container.innerHTML = `
+                    <div class="max-w-[85%] bg-gradient-to-tr from-cyan-500/20 to-emerald-500/20 border border-cyan-500/30 text-slate-100 rounded-2xl rounded-tr-none px-3.5 py-2 text-xs shadow-md select-text break-words font-sans">
+                        ${escapeHtml(text)}
+                    </div>
+                `;
+                messagesEl.appendChild(container);
+                messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+            }
+
+            function showTypingIndicator() {
+                const container = document.createElement("div");
+                container.id = "luna-typing";
+                container.className = "flex justify-start items-start gap-2";
+                container.innerHTML = `
+                    <div class="w-6 h-6 rounded bg-gradient-to-tr from-cyan-400 to-emerald-400 flex items-center justify-center text-slate-950 text-[10px] shrink-0 font-bold shadow shadow-cyan-400/20">L</div>
+                    <div class="bg-slate-900/80 border border-slate-800 text-slate-400 rounded-2xl rounded-tl-none px-3.5 py-2 text-xs shadow-md flex items-center gap-1 select-none animate-lunaFadeIn">
+                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 0ms"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 150ms"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" style="animation-delay: 300ms"></span>
+                    </div>
+                `;
+                messagesEl.appendChild(container);
+                messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+            }
+
+            function removeTypingIndicator() {
+                const indicator = document.getElementById("luna-typing");
+                if (indicator) indicator.remove();
+            }
+
+            function appendLunaMessage(text) {
+                const container = document.createElement("div");
+                container.className = "flex justify-start items-start gap-2 animate-lunaFadeIn";
+                container.innerHTML = `
+                    <div class="w-6 h-6 rounded bg-gradient-to-tr from-cyan-400 to-emerald-400 flex items-center justify-center text-slate-950 text-[10px] shrink-0 font-bold shadow shadow-cyan-400/20">L</div>
+                    <div class="max-w-[80%] bg-slate-900/80 border border-slate-800 text-slate-200 rounded-2xl rounded-tl-none px-3.5 py-2 text-xs shadow-md leading-relaxed select-text font-sans">
+                        ${formatMarkdown(text)}
+                    </div>
+                `;
+                messagesEl.appendChild(container);
+                messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.innerText = text;
+                return div.innerHTML;
+            }
+
+            function formatMarkdown(text) {
+                // Escape HTML tags to prevent cross-site scripting
+                let escaped = escapeHtml(text);
+                // Bold formatting **text**
+                escaped = escaped.replace(/\*\*(.*?)\*\//g, '<strong>$1</strong>'); // fallback support
+                escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                // Bullet points
+                escaped = escaped.replace(/^-\s+\*(.*?)\*/gm, '<li>$1</li>');
+                escaped = escaped.replace(/^-\s+(.*?)$/gm, '<li>$1</li>');
+                // Newlines
+                escaped = escaped.replace(/\n/g, '<br>');
+                return escaped;
+            }
+        }
+        
+        window.addEventListener('DOMContentLoaded', initLuna);
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Protocols - MindPulse Terminal</title>
+    <!-- Tailwind CSS for layout structure -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for matching terminal iconography -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #02080d;
+            background-image: 
+                linear-gradient(to bottom, rgba(2, 8, 13, 0.88) 0%, rgba(5, 16, 26, 0.94) 100%),
+                url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1920&q=90');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        .glass-panel-3d {
+            background: rgba(8, 20, 32, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col">
+
+    <header class="bg-slate-950/75 backdrop-blur-xl border-b border-slate-900 sticky top-0 z-50 px-8 py-4 flex items-center justify-between">
+        <a href="index.html#page-1" class="flex items-center gap-3 cursor-pointer" style="text-decoration: none;">
+            <div class="bg-gradient-to-tr from-cyan-400 to-emerald-400 p-2 rounded-xl text-slate-950 text-lg shadow-lg shadow-cyan-400/20">
+                <i class="fas fa-wave-square"></i>
+            </div>
+            <span class="font-black text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-cyan-400">MindPulse</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-xs font-bold tracking-wide uppercase text-slate-400">
+            <a href="index.html#page-1" class="hover:text-cyan-400 transition">Home</a>
+            <a href="dashboard.html" class="hover:text-cyan-400 transition">Dashboard</a>
+            <a href="index.html#page-7" class="hover:text-cyan-400 transition">Login</a>
+            <a href="about.html" class="hover:text-cyan-400 transition">About Us</a>
+            <a href="FAQ.html" class="hover:text-cyan-400 transition">FAQ</a>
+            <a href="contact.html" class="hover:text-cyan-400 transition">Contact Us</a>
+            <a href="feedback.html" class="hover:text-cyan-400 transition">Feedback</a>
+            <a href="policy.html" class="hover:text-cyan-400 text-cyan-400 transition">Policy & Terms</a>
+        </nav>
+    </header>
+
+    <main class="w-full max-w-3xl mx-auto py-12 px-6 flex-grow flex flex-col justify-center space-y-10">
+        
+        <!-- Header -->
+        <div class="text-center space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-cyan-950/70 border border-cyan-800/40 rounded-full text-xs text-cyan-400 font-semibold tracking-wide">
+                <i class="fas fa-gavel animate-pulse"></i> Compliance Directives
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight">Legal Framework</h2>
+            <p class="text-slate-400 text-xs md:text-sm font-light">
+                Last Updated: June 2026. Please review our Privacy Protocols and Terms of Service.
+            </p>
+        </div>
+
+        <!-- STANDARD WEBSITE LONG-FORM CONTAINER -->
+        <div class="glass-panel-3d p-8 md:p-10 rounded-2xl space-y-12 text-sm leading-relaxed text-slate-300">
+            
+            <!-- SECTION 1: PRIVACY POLICY -->
+            <section class="space-y-6">
+                <div class="flex items-center gap-2 border-b border-slate-800/60 pb-2">
+                    <span class="text-cyan-400"><i class="fas fa-user-shield"></i></span>
+                    <h3 class="text-lg font-black uppercase tracking-wider text-white">1. Privacy Policy</h3>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-1">1.1 Cryptographic Isolation</h4>
+                        <p class="text-slate-400 text-xs md:text-sm">All textual strings analyzed via individual run commands are transiently processed inside dynamic system volatile RAM vectors. No data elements persist in durable long-term index systems.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-1">1.2 Telemetry Metadata</h4>
+                        <p class="text-slate-400 text-xs md:text-sm">We do collect localized routing performance statistics solely to monitor network balance and structural terminal bottlenecks. This operational footprint remains entirely unlinked from personal node identities.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-1">1.3 Third Party Integrations</h4>
+                        <p class="text-slate-400 text-xs md:text-sm">MindPulse does not syndicate payload vectors or raw dialect outputs to out-of-network intelligence brokers. Your API diagnostic parameters stay within secure localized encryption scopes.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: TERMS & CONDITIONS -->
+            <section class="space-y-6">
+                <div class="flex items-center gap-2 border-b border-slate-800/60 pb-2">
+                    <span class="text-emerald-400"><i class="fas fa-file-contract"></i></span>
+                    <h3 class="text-lg font-black uppercase tracking-wider text-white">2. Terms of Alignment</h3>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-1">2.1 Structural Usage Constraints</h4>
+                        <p class="text-slate-400 text-xs md:text-sm">Operators agree not to intentionally trigger execution overload matrix scripts or query automated stress arrays constructed to collapse terminal latency frameworks.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-1">2.2 Node Account Safeguards</h4>
+                        <p class="text-slate-400 text-xs md:text-sm">Credential loops and cryptographic access tokens remain the sole operational duty of the provisioning operator node. Unauthorized connection breaches must be reported immediately.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold text-base mb-1">2.3 System Liability Bounds</h4>
+                        <p class="text-slate-400 text-xs md:text-sm">MindPulse provides semantic precision models 'as-is'. We declare no binding legal coverage for operational decisions or product adaptations executed derived from our analytical vector scoring maps.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+</body>
+</html>

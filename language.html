@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilingual Text Hub & Analysis Tool</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #02080d;
+            background-image: 
+                linear-gradient(to bottom, rgba(2, 8, 13, 0.88) 0%, rgba(5, 16, 26, 0.94) 100%),
+                url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1920&q=90');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(8, 20, 32, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.08);
+            position: relative;
+            z-index: 10;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(14, 165, 233, 0.4);
+            border-radius: 4px;
+        }
+        .glow-sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            opacity: 0.15;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen antialiased selection:bg-sky-500 selection:text-white pb-12 relative">
+
+    <!-- Ambient Glowing Orbs -->
+    <div class="glow-sphere bg-cyan-500 w-[500px] h-[500px] top-[-10%] left-[-10%]"></div>
+    <div class="glow-sphere bg-rose-500 w-[400px] h-[400px] bottom-[10%] right-[-5%]"></div>
+
+    <header class="bg-slate-950/75 backdrop-blur-xl border-b border-slate-900 sticky top-0 z-50 px-8 py-4 flex items-center justify-between">
+        <a href="index.html#page-1" class="flex items-center gap-3 cursor-pointer" style="text-decoration: none;">
+            <div class="bg-gradient-to-tr from-cyan-400 to-emerald-400 p-2 rounded-xl text-slate-950 text-lg shadow-lg shadow-cyan-400/20">
+                <i class="fas fa-wave-square"></i>
+            </div>
+            <span class="font-black text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-cyan-400">MindPulse</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-xs font-bold tracking-wide uppercase text-slate-400">
+            <a href="index.html#page-1" class="hover:text-cyan-400 transition">Home</a>
+            <a href="dashboard.html" class="hover:text-cyan-400 transition">Dashboard</a>
+            <a href="index.html#page-7" class="hover:text-cyan-400 transition">Login</a>
+            <a href="about.html" class="hover:text-cyan-400 transition">About Us</a>
+            <a href="FAQ.html" class="hover:text-cyan-400 transition">FAQ</a>
+            <a href="contact.html" class="hover:text-cyan-400 transition">Contact Us</a>
+            <a href="feedback.html" class="hover:text-cyan-400 transition">Feedback</a>
+            <a href="policy.html" class="hover:text-cyan-400 transition">Policy & Terms</a>
+        </nav>
+    </header>
+
+    <!-- Top Navigation Header -->
+    <header class="border-b border-white/5 bg-slate-900/80 backdrop-blur-md relative z-10 px-6 py-4 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-500 flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-language text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 id="ui-app-title" class="text-lg font-bold text-white tracking-wide">
+                        Multilingual Text Toolkit
+                    </h1>
+                    <p id="ui-app-subtitle" class="text-xs text-sky-400">Simple Word Counting, Adjustments, and Analysis</p>
+                </div>
+            </div>
+            
+            <!-- Language Dropdown Selection Menu -->
+            <div class="flex items-center gap-2 bg-slate-950/60 px-4 py-2 rounded-xl border border-white/10 shadow-inner">
+                <span id="ui-select-label" class="text-xs font-medium text-slate-400 font-mono">Interface Language:</span>
+                <select id="langSelector" class="bg-transparent text-xs font-semibold text-white focus:outline-none cursor-pointer pr-1">
+                    <option value="en" class="bg-slate-900">English</option>
+                    <option value="bn" class="bg-slate-900">বাংলা (Bengali)</option>
+                    <option value="hi" class="bg-slate-900">हिन्दी (Hindi)</option>
+                    <option value="es" class="bg-slate-900">Español (Spanish)</option>
+                    <option value="fr" class="bg-slate-900">Français (French)</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left Column: Primary Text Input Area & Action Buttons -->
+        <section class="lg:col-span-7 flex flex-col gap-6">
+            
+            <!-- The Live Textbox Container Card -->
+            <div class="glass-panel p-6 rounded-2xl shadow-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 id="ui-box-title" class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                        <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Type or Paste Your Text Here
+                    </h2>
+                    <span id="detectedLangBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-500/20 text-sky-400 border border-sky-500/30 font-mono">
+                        DETECTED: EN
+                    </span>
+                </div>
+                
+                <!-- Input Box -->
+                <textarea id="rawInput" rows="7" class="w-full bg-slate-950/50 border border-white/10 rounded-xl p-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/20 resize-none transition-all text-sm leading-relaxed custom-scrollbar shadow-inner" placeholder="Start typing here..."></textarea>
+                
+                <!-- Formatting Controls Row -->
+                <div class="mt-4 flex flex-wrap gap-2 items-center justify-between">
+                    <div class="flex gap-2">
+                        <button id="btnUppercase" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg transition-colors border border-white/5">
+                            ABC
+                        </button>
+                        <button id="btnLowercase" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg transition-colors border border-white/5">
+                            abc
+                        </button>
+                        <button id="btnClear" class="px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-medium rounded-lg transition-colors border border-rose-500/20">
+                            Clear
+                        </button>
+                    </div>
+                    
+                    <button id="analyzeBtn" class="px-5 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors shadow-lg shadow-sky-500/10 flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass text-slate-950"></i> Run Diagnostic
+                    </button>
+                </div>
+            </div>
+
+            <!-- Operational Activity Action Logs Box -->
+            <div class="glass-panel rounded-2xl overflow-hidden flex flex-col min-h-[220px] shadow-xl">
+                <div class="bg-slate-900/90 px-5 py-3 border-b border-white/5 flex items-center justify-between">
+                    <div class="flex items-center gap-2 font-mono">
+                        <i class="fa-solid fa-list-ul text-sky-400 text-xs"></i>
+                        <span id="ui-log-title" class="text-xs font-bold uppercase tracking-wider text-slate-400">Activity & Verification History Log</span>
+                    </div>
+                </div>
+                <div id="terminalLog" class="p-5 bg-slate-950/40 flex-1 font-mono text-xs text-sky-300/90 overflow-y-auto space-y-2 max-h-[250px] custom-scrollbar shadow-inner">
+                    <!-- Dynamic live logs show here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Live Data Counter Panels and Metrics Boxes -->
+        <section class="lg:col-span-5 flex flex-col gap-6">
+            
+            <!-- Real-Time Text Stats Widgets Panel -->
+            <div class="glass-panel p-6 rounded-2xl space-y-5 border-t-2 border-t-indigo-500 shadow-xl">
+                <h2 id="ui-stats-title" class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2 font-mono">
+                    <i class="fa-solid fa-chart-simple text-indigo-400"></i> Real-Time Content Counters
+                </h2>
+
+                <!-- Stat Counter 1: Word Count -->
+                <div class="flex items-center justify-between p-3 bg-slate-900/60 rounded-xl border border-white/5">
+                    <div class="flex items-center gap-3">
+                        <div class="h-8 w-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                            <i class="fa-solid fa-font"></i>
+                        </div>
+                        <span id="ui-lbl-words" class="text-sm font-medium text-slate-300">Total Words</span>
+                    </div>
+                    <span id="statWords" class="text-xl font-bold font-mono text-white">0</span>
+                </div>
+
+                <!-- Stat Counter 2: Character Count -->
+                <div class="flex items-center justify-between p-3 bg-slate-900/60 rounded-xl border border-white/5">
+                    <div class="flex items-center gap-3">
+                        <div class="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <span id="ui-lbl-chars" class="text-sm font-medium text-slate-300">Total Characters</span>
+                    </div>
+                    <span id="statChars" class="text-xl font-bold font-mono text-white">0</span>
+                </div>
+
+                <!-- Stat Counter 3: Estimated Reading Time -->
+                <div class="flex items-center justify-between p-3 bg-slate-900/60 rounded-xl border border-white/5">
+                    <div class="flex items-center gap-3">
+                        <div class="h-8 w-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <span id="ui-lbl-time" class="text-sm font-medium text-slate-300">Estimated Reading Time</span>
+                    </div>
+                    <span id="statTime" class="text-sm font-bold font-mono text-white">0s</span>
+                </div>
+            </div>
+
+            <!-- Deep Linguistic Structural Feature Attributes Box -->
+            <div class="glass-panel p-6 rounded-2xl flex-1 shadow-xl">
+                <h3 id="ui-meta-title" class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-circle-info text-sky-400"></i> Detailed Text Observations
+                </h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+                    <div class="p-3 bg-slate-950/40 rounded-xl border border-white/5 flex flex-col gap-1">
+                        <span id="ui-lbl-iso" class="text-[10px] text-slate-500 uppercase">Target Framework Language</span>
+                        <span id="metaISO" class="font-bold text-slate-200">-</span>
+                    </div>
+                    <div class="p-3 bg-slate-950/40 rounded-xl border border-white/5 flex flex-col gap-1">
+                        <span id="ui-lbl-space" class="text-[10px] text-slate-500 uppercase">Spaces Counted</span>
+                        <span id="metaSpaces" class="font-bold text-slate-200">0</span>
+                    </div>
+                    <div class="p-3 bg-slate-950/40 rounded-xl border border-white/5 flex flex-col gap-1">
+                        <span id="ui-lbl-density" class="text-[10px] text-slate-500 uppercase">Text Density Level</span>
+                        <span id="metaDensity" class="font-bold text-sky-400">-</span>
+                    </div>
+                    <div class="p-3 bg-slate-950/40 rounded-xl border border-white/5 flex flex-col gap-1">
+                        <span id="ui-lbl-status" class="text-[10px] text-slate-500 uppercase">Process Status Code</span>
+                        <span id="metaStatus" class="font-bold text-emerald-400">Ready</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Full Page Translation Loop Script Setup Architecture -->
+    <script>
+        // Full Page Layout Language Dictionary
+        const translationDictionary = {
+            en: {
+                appTitle: "Multilingual Text Toolkit",
+                appSubtitle: "Simple Word Counting, Adjustments, and Analysis",
+                selectLabel: "Interface Language:",
+                boxTitle: "Type or Paste Your Text Here",
+                placeholder: "Start typing or paste your text content right here...",
+                btnUpper: "UPPERCASE",
+                btnLower: "lowercase",
+                btnClear: "Clear",
+                btnAnalyze: "Run Analysis",
+                logTitle: "Activity & History Log",
+                statsTitle: "Real-Time Content Counters",
+                lblWords: "Total Words",
+                lblChars: "Total Characters",
+                lblTime: "Estimated Reading Time",
+                metaTitle: "Detailed Text Observations",
+                lblIso: "Target System Language",
+                lblSpace: "Spaces Counted",
+                lblDensity: "Text Density Level",
+                lblStatus: "Process Status Code",
+                defaultText: "We understand that most people who reply immediately are seeking a safe place to share. It is completely normal to feel overwhelmed when encountering high-pressure situations.",
+                logInit: "System initialized. Ready to accept text input.",
+                logCleared: "Text frame cleared successfully.",
+                logCaseUpper: "Transformed text to UPPERCASE.",
+                logCaseLower: "Transformed text to lowercase.",
+                logAnalyze: "Analysis complete! Final count: ",
+                densityLow: "Light Text Density",
+                densityMed: "Medium Text Density",
+                densityHigh: "Heavy Content Density",
+                logWordChange: "Input updated. Total length: ",
+                logLangShift: "Language detected change: "
+            },
+            bn: {
+                appTitle: "বহুভাষী টেক্সট টুলকিট",
+                appSubtitle: "সহজ শব্দ গণনা, সংশোধন এবং টেক্সট বিশ্লেষণ",
+                selectLabel: "ভাষার মাধ্যম পরিবর্তন করুন:",
+                boxTitle: "আপনার টেক্সট এখানে লিখুন বা পেস্ট করুন",
+                placeholder: "এখানে কিছু লিখতে শুরু করুন...",
+                btnUpper: "বড় অক্ষর (UPPERCASE)",
+                btnLower: "ছোট অক্ষর (lowercase)",
+                btnClear: "মুছে ফেলুন",
+                btnAnalyze: "বিশ্লেষণ করুন",
+                logTitle: "কার্যকলাপ ও ইতিহাস লগ",
+                statsTitle: "রিয়েল-টাইম গণনা সূচক",
+                lblWords: "মোট শব্দ সংখ্যা",
+                lblChars: "মোট অক্ষর সংখ্যা",
+                lblTime: "পড়ার আনুমানিক সময়",
+                metaTitle: "বিস্তারিত পাঠ্য পর্যবেক্ষণ",
+                lblIso: "টার্গেট সিস্টেম ভাষা",
+                lblSpace: "ফাঁকা স্পেস গণনা",
+                lblDensity: "পাঠ্যের ঘনত্ব স্তর",
+                lblStatus: "প্রক্রিয়া স্থিতি কোড",
+                defaultText: "আমরা বুঝি যে বেশিরভাগ মানুষ যারা অবিলম্বে উত্তর দেয় তারা কথা শেয়ার করার জন্য একটি নিরাপদ জায়গা খোঁজে। তীব্র চাপের মুখোমুখি হলে দিশেহারা বোধ করা সম্পূর্ণ স্বাভাবিক।",
+                logInit: "সিস্টেম প্রস্তুত করা হয়েছে। ইনপুট স্ক্যান করার জন্য প্রস্তুত।",
+                logCleared: "টেক্সট বক্স সফলভাবে খালি করা হয়েছে।",
+                logCaseUpper: "টেক্সট সফলভাবে বড় অক্ষরে রূপান্তরিত হয়েছে।",
+                logCaseLower: "টেক্সট সফলভাবে ছোট অক্ষরে রূপান্তরিত হয়েছে।",
+                logAnalyze: "বিশ্লেষণ সম্পন্ন! মোট হিসাব: ",
+                densityLow: "হালকা পাঠ্য ঘনত্ব",
+                densityMed: "মাঝারি পাঠ্য ঘনত্ব",
+                densityHigh: "উচ্চ পাঠ্য ঘনত্ব",
+                logWordChange: "ইনপুট আপডেট করা হয়েছে। মোট দৈর্ঘ্য: ",
+                logLangShift: "ভাষা পরিবর্তনের সনাক্তকরণ: "
+            },
+            hi: {
+                appTitle: "बहुभाषी टेक्स्ट टूलकिट",
+                appSubtitle: "सरल शब्द गणना, संशोधन और पाठ विश्लेषण",
+                selectLabel: "इंटरफ़ेस की भाषा:",
+                boxTitle: "अपना टेक्स्ट यहाँ लिखें या पेस्ट करें",
+                placeholder: "यहाँ लिखना शुरू करें...",
+                btnUpper: "बड़े अक्षर (UPPERCASE)",
+                btnLower: "छोटे अक्षर (lowercase)",
+                btnClear: "साफ करें",
+                btnAnalyze: "विश्लेषण करें",
+                logTitle: "गतिविधि एवं इतिहास लॉग",
+                statsTitle: "रीयल-टाइम गणना संकेतक",
+                lblWords: "कुल शब्द संख्या",
+                lblChars: "कुल अक्षर संख्या",
+                lblTime: "अनुमानित पढ़ने का समय",
+                metaTitle: "विस्तृत पाठ अवलोकन",
+                lblIso: "लक्षित सिस्टम भाषा",
+                lblSpace: "खाली स्पेस की संख्या",
+                lblDensity: "पाठ का घनत्व स्तर",
+                lblStatus: "प्रक्रिया स्थिति कोड",
+                defaultText: "हम समझते हैं कि तुरंत उत्तर देने वाले अधिकांश लोग बात साझा करने के लिए एक सुरक्षित स्थान की तलाश करते हैं। अत्यधिक दबाव वाली स्थितियों का सामना करते समय परेशान होना पूरी तरह से सामान्य है।",
+                logInit: "सिस्टम तैयार किया गया है। इनपुट स्कैन करने के लिए तैयार।",
+                logCleared: "टेक्स्ट बॉक्स सफलतापूर्वक साफ़ कर दिया गया है।",
+                logCaseUpper: "टेक्स्ट को बड़े अक्षरों में सफलतापूर्वक बदला गया।",
+                logCaseLower: "टेक्स्ट को छोटे अक्षरों में सफलतापूर्वक बदला गया।",
+                logAnalyze: "विश्लेषण पूरा हुआ! अंतिम गणना: ",
+                densityLow: "हल्का पाठ घनत्व",
+                densityMed: "मध्यम पाठ घनत्व",
+                densityHigh: "उच्च पाठ घनत्व",
+                logWordChange: "इनपुट अपडेट किया गया। कुल लंबाई: ",
+                logLangShift: "भाषा बदलने की पहचान: "
+            },
+            es: {
+                appTitle: "Caja de Herramientas de Texto",
+                appSubtitle: "Conteo simple de palabras, ajustes y análisis básico",
+                selectLabel: "Idioma de la Interfaz:",
+                boxTitle: "Escriba o Pegue su Texto Aquí",
+                placeholder: "Comience a escribir contenido aquí...",
+                btnUpper: "MAYÚSCULAS",
+                btnLower: "minúsculas",
+                btnClear: "Limpiar",
+                btnAnalyze: "Ejecutar Análisis",
+                logTitle: "Registro de Actividad e Historia",
+                statsTitle: "Contadores de Contenido en Tiempo Real",
+                lblWords: "Palabras Totales",
+                lblChars: "Caracteres Totales",
+                lblTime: "Tiempo Estimado de Lectura",
+                metaTitle: "Observaciones Detalladas del Texto",
+                lblIso: "Idioma de Sistema Destino",
+                lblSpace: "Espacios Contados",
+                lblDensity: "Nivel de Densidad de Texto",
+                lblStatus: "Código de Estado de Proceso",
+                defaultText: "Entendemos que la mayoría de las personas que responden de inmediato buscan un lugar seguro para compartir. Es completamente normal sentirse abrumado en situaciones difíciles.",
+                logInit: "Sistema inicializado. Listo para recibir texto.",
+                logCleared: "Cuadro de texto borrado con éxito.",
+                logCaseUpper: "Texto transformado a MAYÚSCULAS.",
+                logCaseLower: "Texto transformado a minúsculas.",
+                logAnalyze: "¡Análisis completo! Recuento final: ",
+                densityLow: "Densidad de Texto Ligera",
+                densityMed: "Densidad de Texto Media",
+                densityHigh: "Densidad de Contenido Alta",
+                logWordChange: "Entrada actualizada. Longitud total: ",
+                logLangShift: "Cambio de idioma detectado: "
+            },
+            fr: {
+                appTitle: "Boîte d'Outils de Texte Multilingue",
+                appSubtitle: "Comptage simple de mots, ajustements et analyse",
+                selectLabel: "Langue de l'Interface:",
+                boxTitle: "Tapez ou Collez Votre Texte Ici",
+                placeholder: "Commencez à tapez du texte ici...",
+                btnUpper: "MAJUSCULES",
+                btnLower: "minuscules",
+                btnClear: "Effacer",
+                btnAnalyze: "Lancer l'Analyse",
+                logTitle: "Journal d'Activité et Historique",
+                statsTitle: "Compteurs de Contenu en Temps Réel",
+                lblWords: "Total de Mots",
+                lblChars: "Total de Caractères",
+                lblTime: "Temps de Lecture Estimé",
+                metaTitle: "Observations Détaillées du Texte",
+                lblIso: "Langue du Système Cible",
+                lblSpace: "Espaces Comptés",
+                lblDensity: "Niveau de Densité du Texte",
+                lblStatus: "Code d'État du Processus",
+                defaultText: "Nous comprenons que la plupart des gens qui répondent immédiatement recherchent un endroit sûr pour partager. Il est tout à fait normal de se sentir submergé lors de situations de stress.",
+                logInit: "Système initialisé. Prêt à analyser les entrées.",
+                logCleared: "Zone de texte effacée avec succès.",
+                logCaseUpper: "Texte transformé en MAJUSCULES.",
+                logCaseLower: "Texte transformé en minuscules.",
+                logAnalyze: "Analyse terminée! Calcul final: ",
+                densityLow: "Densité de Texte Légère",
+                densityMed: "Densidad de Texte Moyenne",
+                densityHigh: "Forte Densité de Contenu",
+                logWordChange: "Entrée mise à jour. Longueur totale: ",
+                logLangShift: "Changement de langue détecté: "
+            }
+        };
+
+        // DOM UI Elements Hooks Mapping
+        const langSelector = document.getElementById('langSelector');
+        const rawInput = document.getElementById('rawInput');
+        const detectedLangBadge = document.getElementById('detectedLangBadge');
+        const terminalLog = document.getElementById('terminalLog');
+
+        // Dynamic Elements to Translate
+        const uiAppTitle = document.getElementById('ui-app-title');
+        const uiAppSubtitle = document.getElementById('ui-app-subtitle');
+        const uiSelectLabel = document.getElementById('ui-select-label');
+        const uiBoxTitle = document.getElementById('ui-box-title');
+        const btnUppercase = document.getElementById('btnUppercase');
+        const btnLowercase = document.getElementById('btnLowercase');
+        const btnClear = document.getElementById('btnClear');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const uiLogTitle = document.getElementById('ui-log-title');
+        const uiStatsTitle = document.getElementById('ui-stats-title');
+        const uiMetaTitle = document.getElementById('ui-meta-title');
+
+        const uiLblWords = document.getElementById('ui-lbl-words');
+        const uiLblChars = document.getElementById('ui-lbl-chars');
+        const uiLblTime = document.getElementById('ui-lbl-time');
+        const uiLblIso = document.getElementById('ui-lbl-iso');
+        const uiLblSpace = document.getElementById('ui-lbl-space');
+        const uiLblDensity = document.getElementById('ui-lbl-density');
+        const uiLblStatus = document.getElementById('ui-lbl-status');
+
+        // Stats Values Fields Hooks
+        const statWords = document.getElementById('statWords');
+        const statChars = document.getElementById('statChars');
+        const statTime = document.getElementById('statTime');
+        const metaISO = document.getElementById('metaISO');
+        const metaSpaces = document.getElementById('metaSpaces');
+        const metaDensity = document.getElementById('metaDensity');
+        const metaStatus = document.getElementById('metaStatus');
+
+        let lastLanguageDetected = "";
+
+        /**
+         * Appends user readable historical tracking text logs inside the status board console
+         */
+        function pushLogMessage(message) {
+            const timestamp = new Date().toTimeString().split(' ')[0];
+            terminalLog.innerHTML += `<div>[${timestamp}] <span class="text-emerald-400">✓</span> ${message}</div>`;
+            terminalLog.scrollTop = terminalLog.scrollHeight;
+        }
+
+        /**
+         * Runs checking over characters to guess the writing language script
+         */
+        function calculateLanguageAndDensity(text) {
+            const dict = translationDictionary[langSelector.value];
+            if (!text.trim()) {
+                detectedLangBadge.textContent = "DETECTED: -";
+                metaISO.textContent = "-";
+                metaDensity.textContent = "-";
+                return;
+            }
+
+            let langCode = "EN";
+            let fullLangName = "English (ISO 639-1)";
+            
+            if (/[\u0980-\u09FF]/.test(text)) {
+                langCode = "BN";
+                fullLangName = "Bengali / বাংলা";
+            } else if (/[\u0900-\u097F]/.test(text)) {
+                langCode = "HI";
+                fullLangName = "Hindi / हिन्दी";
+            } else if (/[áéíóúüñÁÉÍÓÚÜÑ]/.test(text) && langSelector.value === "es") {
+                langCode = "ES";
+                fullLangName = "Spanish / Español";
+            } else if (/[çàâäéèêëîïôöùûü弾ÇÀÂÄÉÈÊËÎÏÔÖÙÛÜ]/.test(text) && langSelector.value === "fr") {
+                langCode = "FR";
+                fullLangName = "French / Français";
+            }
+
+            detectedLangBadge.textContent = `DETECTED: ${langCode}`;
+            metaISO.textContent = fullLangName;
+
+            // Push log if language has changed while typing
+            if (lastLanguageDetected !== langCode && lastLanguageDetected !== "") {
+                pushLogMessage(`${dict.logLangShift} ${fullLangName}`);
+            }
+            lastLanguageDetected = langCode;
+
+            // Density Calculations
+            if (text.length < 50) {
+                metaDensity.textContent = dict.densityLow;
+            } else if (text.length < 150) {
+                metaDensity.textContent = dict.densityMed;
+            } else {
+                metaDensity.textContent = dict.densityHigh;
+            }
+        }
+
+        /**
+         * Re-calculates core numeric statistics whenever input box values transform
+         */
+        function evaluateLiveInputData(isUserTyping = false) {
+            const currentText = rawInput.value;
+            const dict = translationDictionary[langSelector.value];
+            
+            statChars.textContent = currentText.length;
+
+            const filteredWordsArray = currentText.trim().split(/\s+/).filter(item => item.length > 0);
+            const totalWords = filteredWordsArray.length;
+            statWords.textContent = totalWords;
+
+            const calculatedSeconds = Math.ceil((totalWords / 200) * 60);
+            statTime.textContent = totalWords > 0 ? `${calculatedSeconds}s` : "0s";
+
+            const spacesCount = (currentText.match(/ /g) || []).length;
+            metaSpaces.textContent = spacesCount;
+
+            calculateLanguageAndDensity(currentText);
+
+            // Log typing changes dynamically every 15 characters to avoid overwhelming the screen
+            if (isUserTyping && currentText.length > 0 && currentText.length % 15 === 0) {
+                pushLogMessage(`${dict.logWordChange}${currentText.length} chars (${totalWords} words)`);
+            }
+        }
+
+        /**
+         * Swaps every text node across the entire application viewport safely
+         */
+        function translateEntirePageInterface(targetLangKey) {
+            const currentLangDict = translationDictionary[targetLangKey];
+            
+            uiAppTitle.textContent = currentLangDict.appTitle;
+            uiAppSubtitle.textContent = currentLangDict.appSubtitle;
+            uiSelectLabel.textContent = currentLangDict.selectLabel;
+            uiBoxTitle.innerHTML = `<span class="h-2 w-2 rounded-full bg-emerald-400"></span> ${currentLangDict.boxTitle}`;
+            rawInput.placeholder = currentLangDict.placeholder;
+            
+            btnUppercase.textContent = currentLangDict.btnUpper;
+            btnLowercase.textContent = currentLangDict.btnLower;
+            btnClear.textContent = currentLangDict.btnClear;
+            analyzeBtn.innerHTML = `<i class="fa-solid fa-magnifying-glass text-slate-950"></i> ${currentLangDict.btnAnalyze}`;
+            
+            uiLogTitle.textContent = currentLangDict.logTitle;
+            uiStatsTitle.innerHTML = `<i class="fa-solid fa-chart-simple text-indigo-400"></i> ${currentLangDict.statsTitle}`;
+            uiMetaTitle.innerHTML = `<i class="fa-solid fa-circle-info text-sky-400"></i> ${currentLangDict.metaTitle}`;
+
+            uiLblWords.textContent = currentLangDict.lblWords;
+            uiLblChars.textContent = currentLangDict.lblChars;
+            uiLblTime.textContent = currentLangDict.lblTime;
+            uiLblIso.textContent = currentLangDict.lblIso;
+            uiLblSpace.textContent = currentLangDict.lblSpace;
+            uiLblDensity.textContent = currentLangDict.lblDensity;
+            uiLblStatus.textContent = currentLangDict.lblStatus;
+
+            rawInput.value = currentLangDict.defaultText;
+            
+            // Clean out old log references to prevent mix-ups during interface swaps
+            terminalLog.innerHTML = "";
+            evaluateLiveInputData(false);
+            pushLogMessage(currentLangDict.logInit);
+        }
+
+        // Uppercase Transformation Button Click Action
+        btnUppercase.addEventListener('click', () => {
+            if(rawInput.value.trim().length > 0) {
+                const totalWords = rawInput.value.trim().split(/\s+/).length;
+                rawInput.value = rawInput.value.toUpperCase();
+                evaluateLiveInputData(false);
+                pushLogMessage(`${translationDictionary[langSelector.value].logCaseUpper} (${totalWords} words altered)`);
+            }
+        });
+
+        // Lowercase Transformation Button Click Action
+        btnLowercase.addEventListener('click', () => {
+            if(rawInput.value.trim().length > 0) {
+                const totalWords = rawInput.value.trim().split(/\s+/).length;
+                rawInput.value = rawInput.value.toLowerCase();
+                evaluateLiveInputData(false);
+                pushLogMessage(`${translationDictionary[langSelector.value].logCaseLower} (${totalWords} words altered)`);
+            }
+        });
+
+        // Clear Content Input Box Action Button
+        btnClear.addEventListener('click', () => {
+            rawInput.value = "";
+            evaluateLiveInputData(false);
+            pushLogMessage(translationDictionary[langSelector.value].logCleared);
+        });
+
+        // Trigger Detailed Analysis Run Check Subroutine
+        analyzeBtn.addEventListener('click', () => {
+            const activeLangDict = translationDictionary[langSelector.value];
+            metaStatus.textContent = "Checked";
+            metaStatus.className = "font-bold text-sky-400";
+            
+            const countSummary = `${statWords.textContent} words, ${statChars.textContent} characters`;
+            pushLogMessage(`${activeLangDict.logAnalyze} ${countSummary}`);
+            
+            analyzeBtn.classList.add('opacity-50');
+            setTimeout(() => analyzeBtn.classList.remove('opacity-50'), 150);
+        });
+
+        // Core Listeners tracking real-time input fields value typing changes
+        rawInput.addEventListener('input', () => {
+            evaluateLiveInputData(true);
+            metaStatus.textContent = "Typing...";
+            metaStatus.className = "font-bold text-amber-400";
+        });
+        
+        // Language Dropdown selector value monitor binding
+        langSelector.addEventListener('change', (eventObj) => {
+            translateEntirePageInterface(eventObj.target.value);
+        });
+
+        // Bootstrap App Load State Initializer Core execution loop
+        window.addEventListener('DOMContentLoaded', () => {
+            translateEntirePageInterface('en');
+        });
+    </script>
+</body>
+</html>

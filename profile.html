@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f19;
+            overflow-x: hidden;
+        }
+
+        /* 3D Deep Layered Background Effect */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* Layer 1: background image with a dark screen overlay */
+        .bg-image-layer {
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            top: -5%;
+            left: -5%;
+            background: linear-gradient(rgba(11, 15, 25, 0.88), rgba(15, 23, 42, 0.92)), url('bg.jpg') no-repeat center center;
+            background-size: cover;
+            transform: translateZ(0);
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Layer 2: 3D Grid Tech Mesh overlay */
+        .bg-grid-mesh {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(25deg) scale(1.2) translateY(-10%);
+            opacity: 0.4;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+        }
+
+        /* Glassmorphism Cards with Glowing Shadows */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            box-shadow: 0 12px 40px 0 rgba(56, 189, 248, 0.08);
+        }
+
+        /* Ambient Glow Effect */
+        .glow-sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Premium Dark Options for Dropdowns */
+        select option {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+        }
+
+        select option[value=""][disabled] {
+            display: none;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            box-shadow: 0 0 15px rgba(244, 63, 94, 0.15);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen antialiased pb-12 relative">
+
+    <header class="bg-slate-950/75 backdrop-blur-xl border-b border-slate-900 sticky top-0 z-50 px-8 py-4 flex items-center justify-between">
+        <a href="index.html#page-1" class="flex items-center gap-3 cursor-pointer" style="text-decoration: none;">
+            <div class="bg-gradient-to-tr from-cyan-400 to-emerald-400 p-2 rounded-xl text-slate-950 text-lg shadow-lg shadow-cyan-400/20">
+                <i class="fas fa-wave-square"></i>
+            </div>
+            <span class="font-black text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-cyan-400">MindPulse</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-xs font-bold tracking-wide uppercase text-slate-400">
+            <a href="index.html#page-1" class="hover:text-cyan-400 transition">Home</a>
+            <a href="dashboard.html" class="hover:text-cyan-400 transition">Dashboard</a>
+            <a href="index.html#page-7" class="hover:text-cyan-400 transition">Login</a>
+            <a href="about.html" class="hover:text-cyan-400 transition">About Us</a>
+            <a href="FAQ.html" class="hover:text-cyan-400 transition">FAQ</a>
+            <a href="contact.html" class="hover:text-cyan-400 transition">Contact Us</a>
+            <a href="feedback.html" class="hover:text-cyan-400 transition">Feedback</a>
+            <a href="policy.html" class="hover:text-cyan-400 transition">Policy & Terms</a>
+        </nav>
+    </header>
+
+    <!-- 3D Background Elements -->
+    <div class="bg-container">
+        <div id="bgImageLayer" class="bg-image-layer"></div>
+        <div class="bg-grid-mesh"></div>
+        <canvas id="particleCanvas" class="absolute inset-0"></canvas>
+        <div class="glow-sphere bg-sky-500 w-[500px] h-[500px] top-[-10%] left-[-10%]"></div>
+        <div class="glow-sphere bg-rose-500 w-[400px] h-[400px] bottom-[10%] right-[-5%]"></div>
+    </div>
+
+
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 mt-8 grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+        <!-- Left Column Sidebar -->
+        <section class="md:col-span-4 flex flex-col gap-6">
+            
+            <!-- User Status Header Panel -->
+            <div class="glass-card p-6 rounded-2xl text-center flex flex-col items-center relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-sky-500 via-purple-500 to-rose-500"></div>
+                
+                <!-- Uploadable Image Circle -->
+                <div onclick="document.getElementById('avatarUpload').click();" class="h-24 w-24 rounded-full bg-slate-900/80 border-2 border-white/10 flex items-center justify-center mb-4 relative overflow-hidden shadow-inner cursor-pointer group/avatar hover:border-rose-500/70 transition-colors">
+                    <!-- Default State Placeholder -->
+                    <div id="avatarPlaceholder" class="flex flex-col items-center justify-center text-slate-600 group-hover/avatar:text-rose-400 transition-colors">
+                        <i class="fa-solid fa-user-astronaut text-5xl mt-1"></i>
+                    </div>
+                    <!-- Dynamically Rendered Target Image -->
+                    <img id="avatarImage" src="" alt="Avatar" class="hidden w-full h-full object-cover">
+                    <!-- Hover Actions Overlay -->
+                    <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/avatar:opacity-100 flex items-center justify-center transition-opacity">
+                        <i class="fa-solid fa-camera text-white text-base"></i>
+                    </div>
+                </div>
+                <!-- Hidden Upload Component Selector Input -->
+                <input type="file" id="avatarUpload" accept="image/*" class="hidden">
+
+                <!-- Editable Header Name Input Container -->
+                <div class="w-full mb-1">
+                    <h2 id="profileHeaderName" class="text-xl font-bold text-white tracking-wide">User Profile</h2>
+                    <input type="text" id="editHeaderName" value="User Profile" class="hidden w-full text-center bg-slate-900 border border-white/10 rounded-lg p-1.5 text-white font-bold text-xl focus:outline-none focus:border-rose-500">
+                </div>
+                
+                <span class="text-[10px] text-rose-300 font-semibold uppercase tracking-wider px-3 py-1 bg-rose-500/10 rounded-full mt-2 border border-rose-500/20">Unified Registry</span>
+                
+                <!-- Editable Grid Metrics Module -->
+                <div class="w-full grid grid-cols-2 gap-3 mt-6 text-left">
+                    <div class="p-3 bg-slate-950/40 rounded-xl border border-white/5 flex flex-col justify-between min-h-[72px]">
+                        <span class="block text-xs font-medium text-slate-400 mb-1">Vibe Baseline</span>
+                        
+                        <!-- View State -->
+                        <span id="vibeBaselineDisplay" class="text-sm font-bold text-rose-400 flex items-center gap-1">
+                            <i class="fa-solid fa-heart text-xs"></i> Intuitive
+                        </span>
+                        <!-- Edit State -->
+                        <input type="text" id="editVibeBaseline" value="Intuitive" class="hidden w-full bg-slate-900 border border-white/10 rounded-lg p-1 text-xs text-rose-400 font-bold focus:outline-none focus:border-rose-500">
+                    </div>
+
+                    <div class="p-3 bg-slate-950/40 rounded-xl border border-white/5 flex flex-col justify-between min-h-[72px]">
+                        <span class="block text-xs font-medium text-slate-400 mb-1">Goal Tracker</span>
+                        
+                        <!-- View State -->
+                        <span id="currentToneBadge" class="text-[11px] font-bold text-sky-400 uppercase tracking-tight line-clamp-2 mt-0.5">Select A Goal</span>
+                        <!-- Edit State -->
+                        <input type="text" id="editGoalTracker" value="Select A Goal" class="hidden w-full bg-slate-900 border border-white/10 rounded-lg p-1 text-[11px] text-sky-400 font-bold uppercase focus:outline-none focus:border-sky-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Context Vital Ranges -->
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-sm font-semibold text-white mb-4 flex items-center gap-2 border-b border-white/5 pb-2">
+                    <i class="fa-solid fa-mask text-rose-400"></i> Active Stress Shield
+                </h3>
+                
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <label class="text-[11px] font-medium text-slate-400 block mb-1.5 flex justify-between">
+                            <span>Sustained Anxiety Tracking</span>
+                            <span class="text-rose-400 font-semibold" id="stressVal">Elevated Stress</span>
+                        </label>
+                        <input type="range" id="stressSlider" min="1" max="3" value="2" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                        <div class="flex justify-between text-[9px] text-slate-500 mt-1 px-1">
+                            <span>Calm</span>
+                            <span>Elevated Stress</span>
+                            <span>Decompression</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column Data Collection Forms -->
+        <section class="md:col-span-8 flex flex-col gap-6">
+            <div class="glass-card p-6 rounded-2xl relative">
+                
+                <div class="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-address-card text-rose-400 text-sm"></i>
+                        <div>
+                            <h3 class="text-sm font-bold text-white tracking-wide">Personal Demographics & Deep Metrics</h3>
+                            <p class="text-[11px] text-slate-400">Manage private physiological baselines and emotional context fields</p>
+                        </div>
+                    </div>
+                    <button id="editBtn" class="px-4 py-1.5 bg-gradient-to-r from-sky-500 to-rose-500 hover:from-sky-400 hover:to-rose-400 text-slate-950 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 shadow-md">
+                        <i class="fa-solid fa-pen text-[10px]"></i> <span id="btnText">Edit Details</span>
+                    </button>
+                </div>
+
+                <!-- Registration Core Form -->
+                <form id="detailsForm" class="flex flex-col gap-6 text-xs">
+                    
+                    <!-- Section 1: Account & Core Identity -->
+                    <div>
+                        <h4 class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase mb-3 flex items-center gap-1.5">
+                            <span class="w-1 h-3 bg-sky-500 rounded-sm"></span> Account Basics
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">Preferred User Handle / Name</label>
+                                <input type="text" id="formUserName" name="userName" value="John Doe" disabled class="bg-slate-950/40 border border-white/5 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50">
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">Private Verification Email</label>
+                                <input type="email" name="userEmail" value="user@example.com" disabled class="bg-slate-950/40 border border-white/5 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Biometrics & Demographics -->
+                    <div>
+                        <h4 class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase mb-3 flex items-center gap-1.5">
+                            <span class="w-1 h-3 bg-purple-500 rounded-sm"></span> Demographics & Physical Tracking
+                        </h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">Age</label>
+                                <input type="number" name="userAge" value="24" disabled class="bg-slate-950/40 border border-white/5 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50">
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">Gender Identity</label>
+                                <select name="userGender" disabled class="bg-slate-900 border border-white/10 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50 cursor-pointer">
+                                    <option value="" selected disabled></option>
+                                    <option value="unspecified">Prefer not to say</option>
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                    <option value="nonbinary">Non-Binary</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">Weight (kg / lbs)</label>
+                                <input type="text" name="userWeight" value="68 kg" disabled class="bg-slate-950/40 border border-white/5 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50">
+                            </div>
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">Height (cm / ft)</label>
+                                <input type="text" name="userHeight" value="172 cm" disabled class="bg-slate-950/40 border border-white/5 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Deep Personal, Purpose & Sentimental Questionnaire -->
+                    <div>
+                        <h4 class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase mb-3 flex items-center gap-1.5">
+                            <span class="w-1 h-3 bg-rose-500 rounded-sm"></span> Deep Sentimental & Personal Context
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">Primary Core Motive for using this site:</label>
+                                <select id="purposeSelect" name="sitePurpose" disabled class="bg-slate-900 border border-white/10 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50 cursor-pointer">
+                                    <option value="" selected disabled></option>
+                                    <option value="escape">Mental Escape & Venting space from routine burnout</option>
+                                    <option value="growth">Self-reflection, emotional tracking & processing feelings</option>
+                                    <option value="focus">Anxiety decompression & conquering mental friction blocks</option>
+                                    <option value="companionship">Conversational refuge to safely process personal thoughts</option>
+                                </select>
+                            </div>
+
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">Which life dynamic triggers the most emotional pressure?</label>
+                                <select name="lifePressure" disabled class="bg-slate-900 border border-white/10 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50 cursor-pointer">
+                                    <option value="" selected disabled></option>
+                                    <option value="relationships">Relationship issues / Complicated family dynamics</option>
+                                    <option value="career">Career milestones friction / Future stability anxiety</option>
+                                    <option value="health">Mental tiredness / Physical fatigue / Body tracking</option>
+                                    <option value="isolation">Feelings of isolation / Lack of sounding boards</option>
+                                </select>
+                            </div>
+
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">How would you grade your general sleep / rest cycles lately?</label>
+                                <select name="sleepCycle" disabled class="bg-slate-900 border border-white/10 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50 cursor-pointer">
+                                    <option value="" selected disabled></option>
+                                    <option value="good">Restful and consistent</option>
+                                    <option value="intermittent">Intermittent sleep / Regular midnight racing thoughts</option>
+                                    <option value="deprived">Highly disrupted / Overwhelming exhaustion</option>
+                                </select>
+                            </div>
+
+                            <div class="flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">What is your current primary mechanism for processing stress?</label>
+                                <select name="copingMechanism" disabled class="bg-slate-900 border border-white/10 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50 cursor-pointer">
+                                    <option value="" selected disabled></option>
+                                    <option value="internalize">Internalizing things (Keeping it private until overload)</option>
+                                    <option value="distraction">Seeking immediate external tasks / Escapism builders</option>
+                                    <option value="expression">Expressive journaling / Venting to trusted systems</option>
+                                </select>
+                            </div>
+
+                            <div class="sm:col-span-2 flex flex-col gap-1.5">
+                                <label class="font-medium text-slate-400">Are there sensitive events, personal overthinking targets, or life blocks you are currently processing?</label>
+                                <textarea rows="3" name="personalIssuesText" disabled class="bg-slate-950/40 border border-white/5 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-rose-500 transition-all disabled:opacity-50 resize-none">Navigating periods of heavy performance anxiety combined with balancing personal lifestyle tracking targets. Utilizing this space to dissect structural bottlenecks and clear thoughts safely away from external feedback loop judgment.</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Interactive Background Logic & Controls Script -->
+    <script>
+        // --- 1. Parallax 3D Mouse Motion Tracking ---
+        const bgImageLayer = document.getElementById('bgImageLayer');
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.015;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.015;
+            bgImageLayer.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
+        });
+
+        // --- 2. Silver-Grey Fine Particle Engine ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.25;
+                this.speedY = (Math.random() - 0.5) * 0.25;
+                this.color = `rgba(${190 + Math.random() * 30}, ${195 + Math.random() * 25}, ${205 + Math.random() * 20}, ${0.15 + Math.random() * 0.2})`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(Math.floor(window.innerWidth / 12), 90);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // --- 3. Dynamic Avatar Image Upload Listener Module ---
+        const avatarUpload = document.getElementById('avatarUpload');
+        const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+        const avatarImage = document.getElementById('avatarImage');
+
+        // --- 4. Form Input State Switcher & Sidebar Editable System ---
+        const editBtn = document.getElementById('editBtn');
+        const btnText = document.getElementById('btnText');
+        const detailsForm = document.getElementById('detailsForm');
+        
+        // Sidebar View Elements
+        const profileHeaderName = document.getElementById('profileHeaderName');
+        const vibeBaselineDisplay = document.getElementById('vibeBaselineDisplay');
+        const currentToneBadge = document.getElementById('currentToneBadge');
+        
+        // Sidebar Edit Inputs
+        const editHeaderName = document.getElementById('editHeaderName');
+        const editVibeBaseline = document.getElementById('editVibeBaseline');
+        const editGoalTracker = document.getElementById('editGoalTracker');
+
+        const stressSlider = document.getElementById('stressSlider');
+        const stressVal = document.getElementById('stressVal');
+        const purposeSelect = document.getElementById('purposeSelect');
+
+        const formUserName = document.getElementById('formUserName');
+        const formUserEmail = detailsForm.querySelector('input[name="userEmail"]');
+        const userAge = detailsForm.querySelector('input[name="userAge"]');
+        const userGender = detailsForm.querySelector('select[name="userGender"]');
+        const userWeight = detailsForm.querySelector('input[name="userWeight"]');
+        const userHeight = detailsForm.querySelector('input[name="userHeight"]');
+        const lifePressureSelect = detailsForm.querySelector('select[name="lifePressure"]');
+        const sleepCycleSelect = detailsForm.querySelector('select[name="sleepCycle"]');
+        const copingMechanismSelect = detailsForm.querySelector('select[name="copingMechanism"]');
+        const personalIssuesText = detailsForm.querySelector('textarea[name="personalIssuesText"]');
+
+        const STORAGE_KEY = 'mindpulse_profile_data';
+        let isEditing = false;
+
+        function getDefaultProfileData() {
+            return {
+                name: 'John Doe',
+                email: 'user@example.com',
+                age: '24',
+                gender: '',
+                weight: '68 kg',
+                height: '172 cm',
+                vibeBaseline: 'Intuitive',
+                goalTracker: 'Select A Goal',
+                stressLabel: 'Elevated Stress',
+                stressValue: 2,
+                sitePurpose: '',
+                lifePressure: '',
+                sleepCycle: '',
+                copingMechanism: '',
+                personalIssuesText: 'Navigating periods of heavy performance anxiety combined with balancing personal lifestyle tracking targets. Utilizing this space to dissect structural bottlenecks and clear thoughts safely away from external feedback loop judgment.',
+                avatar: '',
+                headerName: 'User Profile'
+            };
+        }
+
+        function getStoredProfileData() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return getDefaultProfileData();
+                const saved = JSON.parse(raw);
+                return { ...getDefaultProfileData(), ...saved };
+            } catch (error) {
+                return getDefaultProfileData();
+            }
+        }
+
+        function applyProfileData(profile) {
+            const data = { ...getDefaultProfileData(), ...profile };
+            formUserName.value = data.name || 'John Doe';
+            formUserEmail.value = data.email || 'user@example.com';
+            userAge.value = data.age || '24';
+            userGender.value = data.gender || '';
+            userWeight.value = data.weight || '68 kg';
+            userHeight.value = data.height || '172 cm';
+            purposeSelect.value = data.sitePurpose || '';
+            lifePressureSelect.value = data.lifePressure || '';
+            sleepCycleSelect.value = data.sleepCycle || '';
+            copingMechanismSelect.value = data.copingMechanism || '';
+            personalIssuesText.value = data.personalIssuesText || '';
+
+            profileHeaderName.textContent = data.headerName || data.name || 'User Profile';
+            editHeaderName.value = data.headerName || data.name || 'User Profile';
+            vibeBaselineDisplay.innerHTML = `<i class="fa-solid fa-heart text-xs"></i> ${data.vibeBaseline || 'Intuitive'}`;
+            editVibeBaseline.value = data.vibeBaseline || 'Intuitive';
+            currentToneBadge.textContent = data.goalTracker || 'Select A Goal';
+            editGoalTracker.value = data.goalTracker || 'Select A Goal';
+
+            const stressValue = Number(data.stressValue) || 2;
+            const stressLabel = data.stressLabel || ['Calm / Grounded', 'Elevated Stress', 'Critical Burnout / Reset Needed'][stressValue - 1] || 'Elevated Stress';
+            stressSlider.value = stressValue;
+            stressVal.textContent = stressLabel;
+
+            if (data.avatar) {
+                avatarImage.src = data.avatar;
+                avatarImage.classList.remove('hidden');
+                avatarPlaceholder.classList.add('hidden');
+            } else {
+                avatarImage.removeAttribute('src');
+                avatarImage.classList.add('hidden');
+                avatarPlaceholder.classList.remove('hidden');
+            }
+        }
+
+        function saveProfileData() {
+            const data = {
+                name: formUserName.value.trim() || 'John Doe',
+                email: formUserEmail.value.trim() || 'user@example.com',
+                age: userAge.value || '24',
+                gender: userGender.value || '',
+                weight: userWeight.value.trim() || '68 kg',
+                height: userHeight.value.trim() || '172 cm',
+                vibeBaseline: editVibeBaseline.value.trim() || 'Intuitive',
+                goalTracker: editGoalTracker.value.trim() || 'Select A Goal',
+                stressLabel: stressVal.textContent || 'Elevated Stress',
+                stressValue: Number(stressSlider.value) || 2,
+                sitePurpose: purposeSelect.value || '',
+                lifePressure: lifePressureSelect.value || '',
+                sleepCycle: sleepCycleSelect.value || '',
+                copingMechanism: copingMechanismSelect.value || '',
+                personalIssuesText: personalIssuesText.value.trim() || '',
+                avatar: avatarImage.src || '',
+                headerName: editHeaderName.value.trim() || 'User Profile'
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            window.dispatchEvent(new Event('mindpulse-profile-updated'));
+            return data;
+        }
+
+        avatarUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    avatarImage.src = event.target.result;
+                    avatarPlaceholder.classList.add('hidden');
+                    avatarImage.classList.remove('hidden');
+                    saveProfileData();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        editBtn.addEventListener('click', () => {
+            isEditing = !isEditing;
+            const inputs = detailsForm.querySelectorAll('input, textarea, select');
+            
+            if (isEditing) {
+                inputs.forEach(el => el.removeAttribute('disabled'));
+                profileHeaderName.classList.add('hidden');
+                vibeBaselineDisplay.classList.add('hidden');
+                currentToneBadge.classList.add('hidden');
+                editHeaderName.classList.remove('hidden');
+                editVibeBaseline.classList.remove('hidden');
+                editGoalTracker.classList.remove('hidden');
+                editBtn.className = "px-4 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 shadow-md";
+                btnText.textContent = "Save Changes";
+            } else {
+                inputs.forEach(el => el.setAttribute('disabled', true));
+                if(editHeaderName.value.trim()) {
+                    profileHeaderName.textContent = editHeaderName.value;
+                }
+                if(editVibeBaseline.value.trim()) {
+                    vibeBaselineDisplay.innerHTML = `<i class="fa-solid fa-heart text-xs"></i> ${editVibeBaseline.value}`;
+                }
+                if(editGoalTracker.value.trim()) {
+                    currentToneBadge.textContent = editGoalTracker.value;
+                }
+                saveProfileData();
+                editHeaderName.classList.add('hidden');
+                editVibeBaseline.classList.add('hidden');
+                editGoalTracker.classList.add('hidden');
+                profileHeaderName.classList.remove('hidden');
+                vibeBaselineDisplay.classList.remove('hidden');
+                currentToneBadge.classList.remove('hidden');
+                editBtn.className = "px-4 py-1.5 bg-gradient-to-r from-sky-500 to-rose-500 hover:from-sky-400 hover:to-rose-400 text-slate-950 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 shadow-md";
+                btnText.textContent = "Edit Details";
+            }
+        });
+
+        stressSlider.addEventListener('input', (e) => {
+            const levels = ["Calm / Grounded", "Elevated Stress", "Critical Burnout / Reset Needed"];
+            stressVal.textContent = levels[parseInt(e.target.value) - 1];
+        });
+
+        purposeSelect.addEventListener('change', (e) => {
+            const mapped = {
+                escape: "Mental Escape",
+                growth: "Personal Growth",
+                focus: "Overcoming Blocks",
+                lonely: "Companionship"
+            };
+            const goalText = mapped[e.target.value] || "Select A Goal";
+            currentToneBadge.textContent = goalText;
+            editGoalTracker.value = goalText;
+            saveProfileData();
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applyProfileData(getStoredProfileData());
+        });
+    </script>
+</body>
+</html>

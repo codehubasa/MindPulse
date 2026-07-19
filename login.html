@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindPulse - Premium 3D Sentiment Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Immersive Blue-Green Premium 3D Render Topology Background */
+        body {
+            background-color: #02080d;
+            background-image: 
+                linear-gradient(to bottom, rgba(2, 8, 13, 0.88) 0%, rgba(5, 16, 26, 0.94) 100%),
+                url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1920&q=90');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* High Fidelity 3D Glassmorphism Panel Layer Structuring */
+        .glass-panel-3d {
+            background: rgba(8, 20, 32, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.08);
+        }
+
+        /* Interactive High-Depth Grid Module Blocks */
+        .card-3d-interactive {
+            transform: perspective(1200px) rotateX(10deg) rotateY(-6deg) translateZ(0px);
+            box-shadow: -10px 16px 30px rgba(0, 0, 0, 0.55),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .card-3d-interactive:hover {
+            transform: perspective(1200px) rotateX(3deg) rotateY(-1deg) translateZ(35px) translateY(-10px);
+            box-shadow: -20px 30px 50px rgba(6, 182, 212, 0.35),
+                        0 0 30px rgba(16, 185, 129, 0.25);
+            border-color: rgba(52, 211, 153, 0.5);
+        }
+
+        /* Dedicated Authentication Wrapper Perspective */
+        .auth-container-3d {
+            transform: perspective(1000px) rotateX(6deg) rotateY(-4deg);
+            box-shadow: -15px 25px 45px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen relative">
+
+    <header class="bg-slate-950/75 backdrop-blur-xl border-b border-slate-900 sticky top-0 z-50 px-8 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchPage('page-1')">
+            <div class="bg-gradient-to-tr from-cyan-400 to-emerald-400 p-2 rounded-xl text-slate-950 text-lg shadow-lg shadow-cyan-400/20">
+                <i class="fas fa-wave-square animate-pulse"></i>
+            </div>
+            <span class="font-black text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-cyan-400">MindPulse</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-6 text-xs font-bold tracking-wide uppercase text-slate-400">
+            <a href="#" onclick="switchPage('page-1')" class="hover:text-cyan-400 transition">Home</a>
+            <a href="dashboard.html" class="hover:text-cyan-400 transition">Dashboard</a>
+            <a href="#" onclick="switchPage('page-7')" class="hover:text-cyan-400 text-cyan-400 transition">Login</a>
+            <a href="about.html" class="hover:text-cyan-400 transition">About Us</a>
+            <a href="FAQ.html" class="hover:text-cyan-400 transition">FAQ</a>
+            <a href="contact.html" class="hover:text-cyan-400 transition">Contact Us</a>
+            <a href="feedback.html" class="hover:text-cyan-400 transition">Feedback</a>
+            <a href="policy.html" class="hover:text-cyan-400 transition">Policy & Terms</a>
+        </nav>
+    </header>
+
+    <main class="w-full max-w-7xl mx-auto px-6 py-10">
+
+        <section id="page-1" class="page-view space-y-12">
+            
+            <div class="flex flex-col items-center justify-center text-center max-w-3xl mx-auto space-y-6 pt-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-cyan-950/70 border border-cyan-800/40 rounded-full text-xs text-cyan-400 font-semibold tracking-wide backdrop-blur-md">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Telemetry Engine Matrix Active
+                </div>
+                <h1 class="text-5xl md:text-6xl font-black tracking-tight text-white leading-tight">
+                    Understand Emotions.<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">Make Better Decisions.</span>
+                </h1>
+                <p class="text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl font-light">
+                    Analyze linguistic telemetry layers and human emotional patterns seamlessly through advanced semantic multidimensional vectors.
+                </p>
+                <div class="pt-2">
+                    <button onclick="location.href='choose_analysis.html'" class="bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-500 hover:to-emerald-500 text-slate-950 font-black tracking-wide px-8 py-4 rounded-xl shadow-xl shadow-cyan-400/10 transition-all hover:scale-105 active:scale-95">
+                        Analyze Now
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-6 pt-2">
+                <div class="border-b border-slate-800/60 pb-3">
+                    <h2 class="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2">
+                        <i class="fas fa-cubes text-cyan-400"></i> Core Analytical Modules
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div onclick="location.href='sentiment.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-cyan-400 to-blue-500 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-chart-pie"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">1. Sentiment Analyzer</h4>
+                            <p class="text-xs text-slate-400 mt-1">Classify and evaluate standard text blocks instantly.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='emotion.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-amber-400 to-orange-500 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-smile"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">2. Emotion Detection</h4>
+                            <p class="text-xs text-slate-400 mt-1">Map specific hidden micro-emotional expressions fields accurately.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='sarcasm.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-teal-400 to-emerald-400 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-theater-masks"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">3. Sarcasm Detection</h4>
+                            <p class="text-xs text-slate-400 mt-1">Flag and identify deep contradictory behavioral irony metrics.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='profile.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-slate-400 to-slate-600 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-user"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">4. User Profile</h4>
+                            <p class="text-xs text-slate-400 mt-1">Modify structural configuration options records parameters.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='batch.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-emerald-400 to-cyan-400 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-layer-group"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">5. Batch Analysis</h4>
+                            <p class="text-xs text-slate-400 mt-1">Upload and extract patterns from massive file matrix tracks.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='real_time.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-blue-500 to-cyan-400 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-bolt"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">6. Real Time Analysis</h4>
+                            <p class="text-xs text-slate-400 mt-1">Synchronous live diagnostic analysis tracking evaluation loops.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='language.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-pink-500 to-rose-500 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-language"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">7. Multilingual Analysis</h4>
+                            <p class="text-xs text-slate-400 mt-1">Translate context semantics structures universally across dialects.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='social_media.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-sky-400 to-cyan-400 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fab fa-twitter"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">8. Social Media Analysis</h4>
+                            <p class="text-xs text-slate-400 mt-1">Harvest metadata sentiment strings from real-time global streams.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="location.href='report.html'" class="glass-panel-3d p-6 rounded-2xl cursor-pointer flex flex-col justify-between h-48 card-3d-interactive">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-purple-500 to-indigo-500 text-slate-950 rounded-xl flex items-center justify-center text-lg shadow-lg"><i class="fas fa-file-alt"></i></div>
+                        <div>
+                            <h4 class="font-extrabold text-white text-base">9. Reports</h4>
+                            <p class="text-xs text-slate-400 mt-1">Compile data analytics arrays into structural files.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-2" class="page-view hidden max-w-4xl mx-auto space-y-6">
+            <h2 class="text-2xl font-bold text-white">Sentiment Analyzer</h2>
+            <div class="glass-panel-3d rounded-2xl p-6 space-y-4">
+                <textarea class="w-full bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500" rows="4">I absolutely love this product! It works exactly as expected.</textarea>
+                <div class="flex gap-3"><button class="bg-cyan-400 text-slate-950 font-bold px-5 py-2 rounded-lg text-xs">Analyze</button></div>
+            </div>
+        </section>
+
+        <section id="page-3" class="page-view hidden max-w-4xl mx-auto space-y-6">
+            <h2 class="text-2xl font-bold text-white">Batch Analysis</h2>
+            <div class="border-2 border-dashed border-slate-800 glass-panel-3d rounded-2xl p-12 text-center space-y-4">
+                <i class="fas fa-cloud-upload-alt text-4xl text-cyan-400"></i>
+                <p class="text-sm text-slate-300">Drag & drop files here to load</p>
+                <button class="bg-cyan-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-xs">Choose Document</button>
+            </div>
+        </section>
+
+        <section id="page-4" class="page-view hidden max-w-4xl mx-auto space-y-6">
+            <h2 class="text-2xl font-bold text-white">Real-Time Evaluation Array</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><textarea class="w-full bg-slate-950/50 border border-slate-800 rounded-xl p-4 text-sm text-white" rows="3" placeholder="Type here..."></textarea></div>
+        </section>
+
+        <section id="page-5" class="page-view hidden space-y-6">
+            <h2 class="text-2xl font-bold text-white">Dashboard Telemetry Data</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-panel-3d p-4 rounded-xl"><p class="text-xs text-slate-400 uppercase tracking-wider">Total Evaluated</p><p class="text-2xl font-black text-white mt-1">1,250</p></div>
+                <div class="glass-panel-3d p-4 rounded-xl"><p class="text-xs text-slate-400 uppercase tracking-wider">Positive Ratio</p><p class="text-2xl font-black text-emerald-400 mt-1">620</p></div>
+                <div class="glass-panel-3d p-4 rounded-xl"><p class="text-xs text-slate-400 uppercase tracking-wider">Negative Ratio</p><p class="text-2xl font-black text-rose-400 mt-1">410</p></div>
+                <div class="glass-panel-3d p-4 rounded-xl"><p class="text-xs text-slate-400 uppercase tracking-wider">Neutral Stable</p><p class="text-2xl font-black text-slate-400 mt-1">220</p></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel-3d p-5 rounded-xl"><h3 class="text-sm font-bold mb-4">Sentiment Breakdown</h3><div class="h-44"><canvas id="distributionChart"></canvas></div></div>
+                <div class="glass-panel-3d p-5 rounded-xl"><h3 class="text-sm font-bold mb-4">Temporal Trend Timeline</h3><div class="h-44"><canvas id="trendChart"></canvas></div></div>
+            </div>
+        </section>
+
+        <section id="page-6" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">System Data Records</h2>
+            <div class="glass-panel-3d rounded-xl overflow-hidden text-xs"><div class="p-4 bg-slate-950/80 font-bold text-slate-400 grid grid-cols-2"><span>Report Variant</span><span>Action</span></div><div class="p-4 grid grid-cols-2"><span>April Analytics Matrix</span><span class="text-cyan-400 cursor-pointer">Download File</span></div></div>
+        </section>
+
+        <section id="page-7" class="page-view hidden max-w-md mx-auto pt-4">
+            <div class="glass-panel-3d p-8 rounded-3xl space-y-6 auth-container-3d">
+                
+                <div class="flex items-center bg-slate-950/60 p-1 rounded-xl border border-slate-800/80">
+                    <button id="tab-signin" onclick="toggleAuthMode('signin')" class="w-1/2 text-center py-2 text-xs font-black tracking-wider uppercase rounded-lg text-slate-950 bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all duration-300">
+                        Sign In
+                    </button>
+                    <button id="tab-signup" onclick="toggleAuthMode('signup')" class="w-1/2 text-center py-2 text-xs font-black tracking-wider uppercase rounded-lg text-slate-400 hover:text-white transition-all duration-300">
+                        Sign Up
+                    </button>
+                </div>
+
+                <div class="text-center space-y-1">
+                    <h3 id="auth-title" class="text-lg font-black text-white tracking-wide">Access Core Engine</h3>
+                    <p id="auth-desc" class="text-[11px] text-slate-400">Initialize your neural credentials loop.</p>
+                </div>
+
+                <form onsubmit="event.preventDefault();" class="space-y-4 text-xs">
+                    
+                    <div id="field-name" class="hidden space-y-1">
+                        <label class="block text-slate-400 font-semibold uppercase tracking-wider">Operator Identity Name</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"><i class="fas fa-user-astronaut"></i></span>
+                            <input type="text" placeholder="Rahul Kumar" class="w-full bg-slate-950/80 border border-slate-800 focus:border-cyan-500 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-slate-400 font-semibold uppercase tracking-wider">User Identity Email</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"><i class="fas fa-envelope"></i></span>
+                            <input type="email" placeholder="operator@mindpulse.ai" class="w-full bg-slate-950/80 border border-slate-800 focus:border-cyan-500 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-slate-400 font-semibold uppercase tracking-wider">Security Key Phrase</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500"><i class="fas fa-lock"></i></span>
+                            <input type="password" placeholder="••••••••••••" class="w-full bg-slate-950/80 border border-slate-800 focus:border-cyan-500 rounded-xl py-3 pl-10 pr-4 text-white focus:outline-none transition">
+                        </div>
+                    </div>
+
+                    <div id="field-terms" class="hidden items-center gap-2 pt-1">
+                        <input type="checkbox" id="auth-check" class="accent-cyan-500 rounded">
+                        <label for="auth-check" class="text-[11px] text-slate-400 select-none">I accept the structural telemetry service guidelines.</label>
+                    </div>
+
+                    <div class="pt-2">
+                        <button id="auth-btn" class="w-full bg-gradient-to-r from-cyan-400 to-emerald-400 hover:from-cyan-500 hover:to-emerald-500 text-slate-950 py-3.5 rounded-xl font-black uppercase tracking-widest transition-transform active:scale-95 shadow-lg shadow-cyan-400/10">
+                            Connect Node
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="page-8" class="page-view hidden max-w-md mx-auto">
+            <div class="glass-panel-3d p-6 rounded-2xl text-center space-y-4">
+                <div class="w-16 h-16 bg-gradient-to-tr from-cyan-400 to-emerald-400 text-slate-950 font-black text-xl rounded-full flex items-center justify-center mx-auto shadow-lg">RK</div>
+                <h3 class="text-xl font-bold text-white">Rahul Kumar</h3>
+                <p class="text-xs text-slate-400 font-mono">Profile Token Active</p>
+            </div>
+        </section>
+
+        <section id="page-10" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">Universal Multilingual Parser</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><textarea class="w-full bg-slate-950/50 border border-slate-800 rounded-xl p-4 text-sm text-white" rows="3">Estoy muy feliz con el producto, es excelente!</textarea></div>
+        </section>
+
+        <section id="page-11" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">Social Telemetry Track</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><input type="text" class="w-full bg-slate-955 border border-slate-800 p-3 rounded-xl text-xs text-white" value="#iPhone16"></div>
+        </section>
+
+        <section id="page-12" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">Granular Emotion Isolation Matrix</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><textarea class="w-full bg-slate-950/50 border border-slate-800 rounded-xl p-4 text-sm text-white" rows="3">I am so angry and frustrated!</textarea></div>
+        </section>
+
+        <section id="page-13" class="page-view hidden max-w-4xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white">Contradictory Sarcasm Evaluation</h2>
+            <div class="glass-panel-3d p-6 rounded-2xl"><textarea class="w-full bg-slate-955/50 border border-slate-800 rounded-xl p-4 text-sm text-white" rows="3">Oh great! Another update that breaks everything.</textarea></div>
+        </section>
+
+        <section id="page-14" class="page-view hidden max-w-2xl mx-auto text-center space-y-4">
+            <h2 class="text-2xl font-bold text-white">About MindPulse Ecosystem</h2>
+            <p class="text-slate-400 text-sm leading-relaxed">A high-fidelity modern text analytics terminal designed for modern telemetry extraction.</p>
+        </section>
+
+        <section id="page-17" class="page-view hidden max-w-2xl mx-auto space-y-4">
+            <h2 class="text-2xl font-bold text-white text-center">FAQ Framework Documentation</h2>
+        </section>
+
+        <section id="page-18" class="page-view hidden max-w-md mx-auto">
+            <div class="glass-panel-3d p-6 rounded-2xl space-y-4">
+                <h3 class="text-lg font-bold text-white">Contact Terminal Gateway</h3>
+                <textarea class="w-full bg-slate-955 border border-slate-800 rounded-lg p-3 text-xs text-white" placeholder="Message string details..."></textarea>
+                <button class="w-full bg-cyan-400 text-slate-950 py-2 rounded-lg text-xs font-bold">Transmit Message</button>
+            </div>
+        </section>
+
+        <section id="page-19" class="page-view hidden max-w-md mx-auto">
+            <div class="glass-panel-3d p-6 rounded-2xl text-center space-y-4">
+                <h3 class="text-lg font-bold text-white">System Experience Evaluation</h3>
+                <button class="w-full bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 py-2 rounded-lg text-xs font-bold">Submit Feedback</button>
+            </div>
+        </section>
+
+        <section id="page-20" class="page-view hidden max-w-2xl mx-auto">
+            <div class="glass-panel-3d p-6 rounded-2xl text-xs text-slate-400 space-y-2">
+                <h3 class="text-sm font-bold text-white">Policy Documentation and Structural Terms</h3>
+                <p>Protected operations protocol metrics apply globally to all functional user nodes.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-view').forEach(view => view.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+
+            // Dynamic navbar link highlighting
+            const navLinks = document.querySelectorAll('header nav a');
+            navLinks.forEach(link => {
+                const onclickAttr = link.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(pageId)) {
+                    link.classList.add('text-cyan-400');
+                } else if (onclickAttr && onclickAttr.includes('switchPage')) {
+                    link.classList.remove('text-cyan-400');
+                }
+            });
+
+            // Scroll to view header anchor point smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Handle hash-based routing for in-page views
+        function handleRouting() {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetPage = hash.substring(1); // remove '#'
+                const element = document.getElementById(targetPage);
+                if (element && element.classList.contains('page-view')) {
+                    switchPage(targetPage);
+                    return;
+                }
+            }
+            switchPage('page-7');
+        }
+
+        window.addEventListener('hashchange', handleRouting);
+        window.addEventListener('load', handleRouting);
+
+        /* Authentication View Configuration Modality Toggle */
+        function toggleAuthMode(mode) {
+            const tabSignIn = document.getElementById('tab-signin');
+            const tabSignUp = document.getElementById('tab-signup');
+            const fieldName = document.getElementById('field-name');
+            const fieldTerms = document.getElementById('field-terms');
+            const authTitle = document.getElementById('auth-title');
+            const authDesc = document.getElementById('auth-desc');
+            const authBtn = document.getElementById('auth-btn');
+
+            const activeClasses = ['text-slate-950', 'bg-gradient-to-r', 'from-cyan-400', 'to-emerald-400'];
+            const inactiveClasses = ['text-slate-400', 'hover:text-white'];
+
+            if (mode === 'signup') {
+                tabSignUp.classList.add(...activeClasses);
+                tabSignUp.classList.remove(...inactiveClasses);
+                tabSignIn.classList.remove(...activeClasses);
+                tabSignIn.classList.add(...inactiveClasses);
+
+                fieldName.classList.remove('hidden');
+                fieldTerms.classList.remove('hidden');
+                fieldTerms.classList.add('flex');
+                authTitle.innerText = "Register System Node";
+                authDesc.innerText = "Generate a new cryptographic entry token.";
+                authBtn.innerText = "Create Account";
+            } else {
+                tabSignIn.classList.add(...activeClasses);
+                tabSignIn.classList.remove(...inactiveClasses);
+                tabSignUp.classList.remove(...activeClasses);
+                tabSignUp.classList.add(...inactiveClasses);
+
+                fieldName.classList.add('hidden');
+                fieldTerms.classList.remove('flex');
+                fieldTerms.classList.add('hidden');
+                authTitle.innerText = "Access Core Engine";
+                authDesc.innerText = "Initialize your neural credentials loop.";
+                authBtn.innerText = "Connect Node";
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const ctxDist = document.getElementById('distributionChart').getContext('2d');
+            new Chart(ctxDist, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Pos', 'Neg', 'Neu'],
+                    datasets: [{ data: [620, 410, 220], backgroundColor: ['#10b981', '#f43f5e', '#64748b'], borderWidth: 0 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            const ctxTrend = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctxTrend, {
+                type: 'line',
+                data: {
+                    labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+                    datasets: [{ data: [65, 78, 72, 89, 85, 92, 94], borderColor: '#06b6d4', tension: 0.4, fill: false }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+        });
+    </script>
+</body>
+</html>
