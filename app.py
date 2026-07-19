@@ -177,4 +177,4 @@ def build_sarcasm_payload(text, raw_pred=0.5):
         "magical","best","wonderful","amazing","beautiful","excellent","nice","success","heroically","glad"}
     neg_words = {"break","dead","sues","secret","minority","shoppers","fear","sinking","bomb",
         "detonates","smear","frightened","terror","crisis","outrage","abuse","chokeholds","cries",
-        "accident","broken","bad","terrible","wo
+        "accident","broken","bad","terrible","worst","hate","fail","failed","failure","ruin","destroy","mess","ugly"}
